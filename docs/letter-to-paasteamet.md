@@ -183,8 +183,8 @@ Lugupidamisega,
 
 **Martti Randma**
 randma.martti@gmail.com
-[telefon]
-[GitHub: github.com/marttirandma/droonialarm — projekti repo]
++372 5539649
+GitHub: [github.com/marttirandma/droonialarm](https://github.com/marttirandma/droonialarm)
 
 ---
 
