@@ -12,9 +12,9 @@
 | Asutus | Kontakt |
 |---|---|
 | Päästeamet (peadirektor Margo Klaos) | rescue@rescue.ee |
-| Riigi Infosüsteemi Amet RIA (peadirektor Joonas Heiter) | ria@ria.ee |
+| Riigi Infosüsteemi Amet RIA (peadirektor Joonas Heiter) | info@ria.ee |
 | Siseministeeriumi infotehnoloogia- ja arenduskeskus SMIT (peadirektor Kirke Saar) | smit@smit.ee |
-| Häirekeskus (1247) | hairekeskus@112.ee |
+| Häirekeskus (1247) | 112@112.ee |
 
 ### Ministrid (poliitiline vastutus)
 
@@ -31,7 +31,7 @@
 |---|---|
 | Õiguskantsler Ülle Madise | info@oiguskantsler.ee |
 | Andmekaitse Inspektsioon | info@aki.ee |
-| Riigikantselei valitsuse kommunikatsioonibüroo | strateegiline-kommunikatsioon@riigikantselei.ee |
+| Riigikantselei valitsuse kommunikatsioonibüroo | riigikantselei@riigikantselei.ee |
 | Riigikogu Riigikaitsekomisjon | riigikaitsekomisjon@riigikogu.ee |
 | Riigikogu Põhiseaduskomisjon | pohiseaduskomisjon@riigikogu.ee |
 
