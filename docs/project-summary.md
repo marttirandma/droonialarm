@@ -10,7 +10,7 @@ Eesti riigi praegune EE-ALARM süsteem saadab droonihäireid SMS'ide kaudu (loca
 - See ei ärata magajat
 - See toimib ainult kohaliku raku piirkonnas (välismaal eestlased ei saa)
 
-Päästeamet on ise tunnistanud, et 3-5% testil ei saanud SMS'i üldse ja et süsteem on "liiga aeglane ja ebausaldusväärne". Cell broadcast tuleb 2027.
+Päästeamet on tunnistanud, et osa kasutajaid SMS-i ei saa, ja et uus võrgupõhine cell broadcast on "oluliselt tõhusam" — cell broadcast tuleb 2027 (vt [ERR, 02.04.2026](https://www.err.ee/1609984068/eesti-plaanib-aasta-parast-kasutusele-votta-vorgupohise-valkteavituse)).
 
 **Vahepealse aja jooksul** on Eesti elanikud — eriti une ajal, vaikse režiimi peal ja välismaal viibivad eestlased — **olukorras, kus nad ei saa hädaolukorra teateid kätte ka siis, kui need on saadetud**.
 
