@@ -12,7 +12,7 @@ crons = ["* * * * *"]
 binding = "DB"
 database_name = "droonialarm-sitrep"
 # database_id is filled in by `wrangler d1 create` and pasted here.
-database_id = "365be29d-e9fd-453f-adc6-e81ad710a3a3"
+database_id = "ebd9c3ab-6143-4a41-9688-60940a948b63"
 
 # A simple Worker route for the inspection UI.
 # After deploy, the Worker is reachable at <name>.<account>.workers.dev as well.
