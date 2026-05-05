@@ -1,0 +1,49 @@
+name: droonialarm
+description: Mitteametlik EE-ALARM re-broadcast app, mis möirgab läbi DND.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.4.0 <4.0.0"
+  flutter: ">=3.22.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Firebase / FCM (Android push)
+  firebase_core: ^3.6.0
+  firebase_messaging: ^15.1.3
+
+  # Local notifications — needed for foreground notifications + Android channel control
+  flutter_local_notifications: ^17.2.3
+
+  # CallKit incoming-call UI for iOS DND-bypass
+  flutter_callkit_incoming: ^2.5.2
+
+  # Looped siren playback once user "answers" the call
+  audioplayers: ^6.1.0
+
+  # Permissions (notification, DND-policy)
+  permission_handler: ^11.3.1
+
+  # Persistent settings
+  shared_preferences: ^2.3.2
+
+  # HTTP for backend registration
+  http: ^1.2.2
+
+  # Localization
+  intl: ^0.19.0
+
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/sounds/
+
+  # Localizations gen — kept manual via Strings class for simplicity in MVP
