@@ -32,21 +32,15 @@ Päästeamet on ise tunnistanud, et süsteem on **"liiga aeglane ja ebausaldusv�
 - **31. märts 2026 ~08:30 EET** — üleriigiline häire. Sama probleem.
 - **25. märts 2026** — Auvere droonirünnak. Sama probleem.
 
-## Põhimõte: hädaolukorra teavitus ei tohi olla autentimise taga
+## Tegelik probleem: ametlikud äpid ei möirga ka külalisena
 
-Üks võimalik vastus probleemi peale on "kasutage Eesti äppi". Aga Eesti äpp nõuab Mobiil-ID, Smart-ID või ID-kaardi sisselogimist — mistõttu jäävad sellest **välja**:
+Eesti äpi avalikku Flutter source koodi analüüsides leidsime ühe **olulise positiivse fakti**: Eesti äpis töötab "**Külaline**" režiim — kasutaja saab äpi paigaldada ilma Mobiil-ID/Smart-ID/ID-kaardita ja saab automaatselt vastu nationwide SITREP/EE-ALARM teavitusi ([push_notifications_service.dart:56-63, 110-113, 323-327](https://koodivaramu.eesti.ee/eesti.app/app-frontend-public/-/raw/main/lib/services/push_notifications_service.dart)). See on õige disain — alert jõuab igale seadmele.
 
-- Lapsed ja noored alla 15-aastased, kellel pole täisealist e-ID-d
-- Eakad inimesed, kes pole e-ID kasutamist omandanud
-- Välismaal elavad eestlased, kelle Mobiil-ID on aegunud või kes ootavad uut SIM-i
-- Eestis viibivad turistid ja ajutised töötajad
-- Igaüks, kel pole hetkel praktilist juurdepääsu e-ID-le
+**Aga probleem säilib:** kuigi alert FCM kanalis külaline-kasutaja seadmele jõuab, **tegelikult ta seda ei kuule**, kui telefon on hääletu või Do Not Disturb peal. Põhjus on, et **Eesti äpp kasutab Android'is vaikimisi notification channel'it** (`fcm_fallback_notification_channel`, USAGE_NOTIFICATION_EVENT) — mis ei läbi DND-d. Manifestis puuduvad `USE_FULL_SCREEN_INTENT`, `ACCESS_NOTIFICATION_POLICY` ja muud DND-bypass'iks vajalikud load. iOS'i `Runner.entitlements` ei sisalda APNs Critical Alerts entitlement'it.
 
-**Sireen ei küsi sinu isikukoodi.** SMS ei küsi sinu Smart-ID'd. Cell broadcast (mis tuleb 2027) ei küsi sinult midagi — see jõuab igale seadmele raku all.
+See on **täpselt sama probleem mis SMS'iga**: teavitus jõuab seadmesse, aga kasutaja seda öösel ei kuule.
 
-**Hädaolukorra teavitus peab töötama samadel põhimõtetel: maksimaalne katvus, ilma autentimise barjäärita.** Eesmärk on **elusid päästa**, mitte konkreetse riigi-portaali kasutajaskonda kasvatada.
-
-Selle põhimõtte tõttu on meie äpp **avatud kõigile** — ei küsi sisselogimist, ei küsi PII'd, ei küsi e-ID'd. Maakonna-valik on anonüümne, kohalikus seadmes. Ja kui Päästeamet otsustab Eesti äpi edasi-arendamise käigus, et hädaolukorra teavitused võiksid sealt **ka ilma sisselogimiseta** kättesaadavad olla — see oleks igal juhul **õige tee**.
+**Põhimõte:** sireenid, SMS ja cell broadcast (tuleb 2027) jõuavad valjult igale telefonile raku all, sõltumata kasutaja identiteedist. Kaasaegsed äpi-kanalid peaksid sama põhimõtte rakendama — **maksimaalne katvus + tegelik kuulmine**, ilma autentimise barjäärita. Eesti äpp lahendab autentimise-poole. Meie äpp lahendab kuulmise-poole, kuni Eesti äpp ka selle ise lisab.
 
 ## Lahendus
 

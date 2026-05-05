@@ -61,29 +61,37 @@ Pöördumine: avalik EE-ALARM teavituste reaalajas-kanali loomine kolmanda osapo
 
 <p>Päästeamet on ise <a href="https://news.err.ee/1609984362/estonia-to-introduce-cell-broadcast-emergency-alert-system-in-2027" style="color: #c41e3a;">avalikult tunnistanud</a>, et 3–5% õppuse Siil 2025 ajal ei saanud SMS-i üldse, ja et SMS-süsteem on "liiga aeglane ja ebausaldusväärne". Cell broadcast'i hange (3,7M €) on käimas, operatiivne 2027. Kuni selle ajani jääb avalik kasutaja <strong>ebausaldusväärse kanali</strong> kätte vahele.</p>
 
-<h2 style="color: #c41e3a; font-size: 18px; margin-top: 28px;">Eraldi probleem: Eesti äpi sisselogimise-barjäär</h2>
+<h2 style="color: #c41e3a; font-size: 18px; margin-top: 28px;">Tunnustus Eesti äpi disaini-otsusele</h2>
 
-<p>Olen näinud, et üks võimalik vastuargument oleks: "kasutage Eesti äppi". Tahan juba ette välja tuua, miks see ei ole hädaolukorra-teavituste jaoks piisav lahendus, ning miks loodame, et te seda ka oma sisemises arutelus arvestate:</p>
+<p>Tahan kiidelda ühte head tehnilist otsust, mille me <a href="https://koodivaramu.eesti.ee/eesti.app/app-frontend-public/-/raw/main/lib/services/push_notifications_service.dart" style="color: #c41e3a;">Eesti äpi avalikust lähtekoodist</a> leidsime: <strong>Eesti äpis töötab "Külaline" režiim</strong> (<a href="https://koodivaramu.eesti.ee/eesti.app/app-frontend-public/-/raw/main/lib/views/screens/pre_login_screen.dart" style="color: #c41e3a;">pre_login_screen.dart:134-146</a>) — kasutaja saab äpi paigaldada ja "Külaline" nupule vajutades pääseda otse HomeScreen'ile, ilma Mobiil-ID / Smart-ID / ID-kaardi sisselogimist. Sellisel külalisel <strong>automaatselt</strong> lülitatakse sisse SITREP topic-subscriptions (<code>push_notifications_service.dart:56-63, 110-113, 323-327</code>), ja tema FCM seade saab vastu kõik nationwide EE-ALARM teavitused.</p>
 
-<p><strong>1. Mul isiklikult ei ole võimalust Eesti äppi kasutada.</strong> Mul ei ole hetkel ei Mobiil-ID'd, Smart-ID'd, ega Eesti ID-kaardi lugemisseadmega arvutit. Olen püsivalt välismaal, kus e-residentsuse-väliste lahenduste kasutuselevõtt pole praktiline. Eesti äpp nõuab autentimist nende meetodite kaudu — ja seetõttu ei avane mulle isegi see kanal, mille olemasolu te võiksite pakkuda lahendusena.</p>
+<p>See on <strong>õige disain</strong> — hädaolukorra teavitus jõuab igale seadmele, mis äpi paigaldab, sõltumata kasutaja autentimise-staatusest. See vastab täpselt põhimõttele, mille kohaselt sireenid, SMS ja cell broadcast töötavad: "alert jõuab igale, kes on raku all, ükskõik kes ta on."</p>
 
-<p><strong>2. See pole minu individuaalne probleem.</strong> Sama olukorras on:</p>
+<h2 style="color: #c41e3a; font-size: 18px; margin-top: 28px;">Tegelik probleem mida me lahendame</h2>
+
+<p>Eesti äpi kanal töötab autentimisvabalt — see on hea. Aga <strong>silent mode ja Do Not Disturb probleem säilib mõlema ametliku kanali (SMS ja Eesti äpp) puhul:</strong></p>
+
 <ul>
-<li><strong>Lapsed ja noored alla 15-aastased</strong>, kellel pole veel täisealist isikukoodi-põhist e-ID-d (nt minu tütar Eestis);</li>
-<li><strong>Eakad inimesed</strong>, kes pole kunagi e-ID kasutamist omandanud (nt minu enda ema);</li>
-<li><strong>Välismaalt naasevad eestlased</strong>, kelle Mobiil-ID on aegunud või kes ootavad uut SIM-kaarti;</li>
-<li><strong>Püsivad välismaal elavad eestlased</strong>, kellel on huvi kodumaa hädaolukordade vastu (perekond, sõbrad, vara);</li>
-<li><strong>Eestis viibivad turistid, ajutised töötajad ja külalised</strong>, kellel pole Eesti e-ID-d aga kes peavad samuti hädaolukorra teate vastu võtma.</li>
+<li><strong>Eesti äpi notification channel</strong> (<code>fcm_fallback_notification_channel_label = "Miscellaneous"</code>) kasutab Android'i vaikimisi <code>USAGE_NOTIFICATION_EVENT</code> audio attributes'i — see ei läbi DND-d ega vaikset režiimi. Manifestis puuduvad <code>USE_FULL_SCREEN_INTENT</code>, <code>ACCESS_NOTIFICATION_POLICY</code> jt DND-bypass'iks vajalikud load.</li>
+<li><strong>iOS Eesti äpi <code>Runner.entitlements</code></strong> ei sisalda <code>com.apple.developer.usernotifications.critical-alerts</code> entitlement'it. Seega isegi külaline-kasutaja saab FCM push'i, aga <strong>kui telefon on hääletu või Focus mode'is, ei kuule ta seda</strong>.</li>
 </ul>
-<p>Kõik need rühmad on seaduslikult Eesti raku all SMS-i saamiseks õigustatud, kuid jäävad Eesti äpi-põhise lahenduse väliste hulka.</p>
 
-<p><strong>3. Hädaolukorra teavituse fundamentaalne loogika eeldab maksimaalset katvust ilma takistusteta.</strong> Kui sireenid alla kärisevad, nad ei küsi kelleltki kes kuuleb. Kui SMS läheb, see läheb igale telefonile selles raku piirkonnas, sõltumata kasutaja identiteedist. EU Cell Broadcast standard (millele Eesti aastaks 2027 üle läheb) töötab samal põhimõttel: alert jõuab igale seadmele, mis on hetkel selle raku all, ilma et oleks vaja sisse logida.</p>
+<p style="background: #fff7e6; padding: 12px; border-left: 4px solid #d97706; border-radius: 4px;">See on <strong>täpselt sama probleem</strong> mis SMS'iga: teavitus jõuab seadmesse, aga kasutaja seda ei kuule.</p>
 
-<p style="background: #fff7e6; padding: 12px; border-left: 4px solid #d97706; border-radius: 4px;"><strong>Hädaolukorra teavitus ei tohiks kunagi olla autentimise taga.</strong> Eesmärk on <strong>elusid päästa</strong>, mitte konkreetset äppi turundada või kasutajaid mõnda riigi-portaali registreerida.</p>
+<p>Lisaks: minu enda perekond (tütar Eestis, ema Eestis) ja kolm sõltumatut tunnistajat 3.05 Võrumaa alarmi kohta — nemad <strong>kõik on potentsiaalselt Eesti äpi külalise-kasutajad</strong>, aga ükski neist ei kuule alert'i, kui telefon on öösel hääletu. Sealtsamast SMS'st samade põhjustega: telefon ei möirga.</p>
 
-<p><strong>4. Me palume kaaluda:</strong> kui teie sisemises plaanis on Eesti äpi edasi-arendamine ohuteavituste paremaks saatmiseks, palun mõelge, et <strong>see kanal — vähemalt ohuteavituste osas — võiks töötada ilma sisselogimiseta.</strong> Eesti äpi muu funktsionaalsus (e-ID dokumendid, terviseandmed, jne) võib jääda autentimise taha — see on loomulik. Aga <code>/api/sitrep/v1/full-events</code> ja sellele tulevad alert'id peaksid olema kättesaadavad <strong>igale seadmele, mis äpi paigaldab</strong>, sõltumata kasutaja sisselogimise-staatusest.</p>
+<h2 style="color: #c41e3a; font-size: 18px; margin-top: 28px;">Kus võiks Eesti äpp veelgi areneda</h2>
 
-<p>Kui see oleks juba olemas, ei oleks kolmandate osapoolte projekte nagu meie oma vajalik. Aga praegu — ja võibolla pikas perspektiivis ka — on alternatiivse, autentimisvaba kanaliga kolmandate osapoolte rakendused <strong>vajalik täiendus</strong>, mitte konkureeriv lahendus.</p>
+<p>Kui teie sisemises plaanis on Eesti äpi edasi-arendamine, palume kaaluda <strong>ohuteavituste eraldi notification channel'i</strong> lisamist — sellise mille atribuudid tagavad, et alert läbib telefoni hääletu režiimi ja DND seaded:</p>
+
+<ul>
+<li><strong>Android'is:</strong> uus <code>NotificationChannel</code> <code>USAGE_ALARM</code> audio-attributes'iga + <code>enableBypassDnd(true)</code> + manifestis <code>ACCESS_NOTIFICATION_POLICY</code> permissioon. Kasutaja annab Settings'is ühe korra loa, et see kanal võiks DND'd üle hääletada — pärast seda toimib igal vaikse režiimi tasemel.</li>
+<li><strong>iOS'is:</strong> APNs Critical Alerts entitlement (<code>com.apple.developer.usernotifications.critical-alerts</code>), millele Apple annab heakskiidu government / public-safety äppidele tavaliselt 2-4 nädalaga. Eesti äpp on kahtlemata kvalifitseeritud taotleja.</li>
+</ul>
+
+<p>Need on <strong>suhteliselt väikesed kood-muudatused</strong> Eesti äpis (~50 rida Dart + 1 manifestilisand Android'is, 1 entitlement iOS'is), aga muudaksid teie ametliku kanali samaks tasemeks mis cell broadcast saab olema 2027 — möirgavaks isegi hääletu telefoni peal.</p>
+
+<p>Kui Eesti äpp neid ehitaks, <strong>muutuks meie projekt suuresti üleliigseks</strong> ja meil oleks heameel oma projekt sulgeda või panna pausile. Meie eesmärk pole olla teie konkurent — meie eesmärk on, et alert kuulutaks rohkemates telefonides.</p>
 
 <h2 style="color: #c41e3a; font-size: 18px; margin-top: 28px;">Mida me tahame ehitada</h2>
 
@@ -144,8 +152,8 @@ Pöördumine: avalik EE-ALARM teavituste reaalajas-kanali loomine kolmanda osapo
 </ul>
 <p>Selline kokkulepe võiks olla ka aluseks Google Play Permissions Declaration Form'is "safety/emergency tool" tunnistuse hankimisele.</p>
 
-<h3 style="font-size: 16px;">Võimalus 4 — Eesti äpis sisselogimisvaba alert-režiim</h3>
-<p>Kui te peate seda mõistlikuks oma sisemise arendusplaani osaks, palume kaaluda et Eesti äpis hädaolukorra teavitused (SITREP feed) töötaks <strong>ka ilma kasutaja sisselogimiseta</strong>. Eesti äpi muu funktsionaalsus võib jääda Mobiil-ID / Smart-ID taha — see on loomulik. Aga ohuteavituste osa võiks olla <strong>vaikimisi sisse lülitatud iga äpi paigaldaja jaoks</strong>, sõltumata e-ID-st. Selline lahendus kataks ka eelmainitud rühmad (lapsed, eakad, välismaalased, turistid) ja muudaks meie kolmandate osapoolte projekti suuremas osas üleliigseks. Kui te seda lahendust eelistate, oleme <strong>rõõmsad oma projekti pausile panema või sulgema</strong>, sest meie eesmärk pole olla Eesti äpi konkurent — meie eesmärk on, et alert jõuaks rohkemate inimesteni.</p>
+<h3 style="font-size: 16px;">Võimalus 4 — Eesti äpi notification channel'i tugevdamine (eelistatud lõpplahendus)</h3>
+<p>Kui see oleks teie sisemise arendusplaani osaks, palume tõsiselt kaaluda <strong>eraldi <code>USAGE_ALARM</code> notification channel'i lisamist Eesti äpi Android'i versioonile</strong> ja <strong>APNs Critical Alerts entitlement'i taotlemist Apple'ilt</strong> Eesti äpi iOS'i versiooni jaoks. See lahendaks ülal kirjeldatud silent-mode/DND probleemi <strong>ilma, et oleks vaja kolmandaid osapooli</strong>. Eesti äpp on Eesti riigi ametlik äpp ja kahtlemata kvalifitseeritud Apple'i Critical Alerts entitlement'i jaoks. Kui Eesti äpp seda ehitaks, <strong>oleksime rõõmsad oma projekti sulgema</strong> — meie eesmärk on lahendus, mitte oma kasutajaskond.</p>
 
 <p>Kui teil on <strong>muu nägemus</strong> — näiteks oma plaan kolmandate osapoolte API-tarbimise kohta, või soov et me lihtsalt ootaks 2027 cell broadcast'i välja — andke palun teada. Eesmärk on <strong>ühine</strong> lahendus, mille teie peate tehniliselt ja kommunikatsioonipoliitiliselt vastuvõetavaks.</p>
 

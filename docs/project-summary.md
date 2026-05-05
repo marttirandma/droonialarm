@@ -35,11 +35,13 @@ iOS- ja Android-rakendus, mis:
 
 Regionaalsete alertide täielik katmine eeldaks koostööd Päästeameti / RIA / SMIT-iga — täpne tehniline lahendus on ametiasutuste otsustada (vt [letter-to-paasteamet](letter-to-paasteamet.md)).
 
-## Põhimõte: hädaolukorra teavitus ei tohi olla autentimise taga
+## Tegelik probleem mida me lahendame
 
-Eesti äpp nõuab Mobiil-ID / Smart-ID / ID-kaardi sisselogimist. Selle väljendab on lapsed, eakad, välismaal elavad eestlased, turistid — kõik kellel pole hetkel praktilist e-ID-d. Sireen ja SMS ja cell broadcast aga ei küsi kelleltki kes kuuleb — nad jõuavad igale telefonile raku all.
+Eesti äpp lubab "Külaline" režiimis (ilma sisselogimiseta) nationwide ohuteavitusi vastu võtta — see on õige disain. **Aga vaikne režiim ja DND lõhuvad selle kanali**, sest Eesti äpp kasutab Android'is vaikimisi notification channel'it (`USAGE_NOTIFICATION_EVENT`, ei läbi DND-d) ja iOS'is puudub Critical Alerts entitlement.
 
-**Hädaolukorra teavitus peab töötama samal põhimõttel: maksimaalne katvus, ilma autentimise barjäärita.** Eesmärk on **elusid päästa**, mitte kasutajaid riigi-portaali registreerida. Selle tõttu meie äpp ei küsi sisselogimist, ei küsi PII'd, ei küsi e-ID'd.
+Tulemus: alert jõuab külalise telefonisse, aga öösel hääletu peal ta seda ei kuule — täpselt nagu SMS-iga.
+
+Meie äpp lahendab just selle puuduva osa: **kuulmise**. Kasutame Android'is `USAGE_ALARM` notification channel'i `enableBypassDnd(true)`'ga ja iOS'is APNs Critical Alerts entitlement'i (Apple'ilt taotletud). Ei küsime sisselogimist, ei kogume PII'd — sama põhimõte mis Eesti äpi külaline-režiimil.
 
 ## Privaatsus
 
