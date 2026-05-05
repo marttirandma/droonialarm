@@ -20,8 +20,8 @@ iOS- ja Android-rakendus, mis:
 
 | Funktsioon | Tehnoloogia |
 |---|---|
-| Möirgab läbi vaikse režiimi (Android) | `NotificationChannel` `USAGE_ALARM` audio-attributes'i + `enableBypassDnd(true)` |
-| Möirgab läbi DND (iOS) | APNs Critical Alerts entitlement (Apple'ilt taotletud) VÕI vahetult CallKit "sissetulev kõne" mis süsteemiringtone'i mängib |
+| Möirgab läbi vaikse režiimi ja DND (Android) | `NotificationChannel` `USAGE_ALARM` audio-attributes'iga + `enableBypassDnd(true)` + `ACCESS_NOTIFICATION_POLICY` permissioon |
+| Möirgab läbi vaikse režiimi ja DND (iOS) | APNs Critical Alerts entitlement (`com.apple.developer.usernotifications.critical-alerts`) — Apple'ilt taotletud, iOS launch'i eeltingimus |
 | Töötab välismaal | Push-teavitus läbi APNs/FCM, ei sõltu Eesti raku-piirkonnast |
 | Töötab ka ilma internetita | Android'is `READ_SMS` luba EE-ALARM saatja peal — nõuab Google Play Permissions Declaration ja koostööd Päästeametiga |
 | Maakonna-valik | EHAK koodi alusel, anonüümselt, ilma sisselogimiseta |

@@ -11,7 +11,7 @@ Ametlik kanal on **EE-ALARM** ja informatsiooni-telefon **1247** (Päästeamet).
 Droonialarm:
 1. Pollib avalikku [api.app.eesti.ee/api/sitrep/v1/full-events](https://api.app.eesti.ee/api/sitrep/v1/full-events) endpoint'i iga 10-60 sekundi tagant
 2. Kui näeb uut alert'i, saadab oma push-teavituse
-3. See teavitus kasutab `USAGE_ALARM` (Android) või CallKit (iOS) tehnikat, mis läbib telefoni vaikse režiimi
+3. See teavitus kasutab Android'is `USAGE_ALARM` notification channel'i ja iOS'is APNs Critical Alerts entitlement'i (Apple-issued) — mõlemad läbivad vaikse režiimi ja Do Not Disturb seaded
 
 ## Mida see app **EI tee**
 

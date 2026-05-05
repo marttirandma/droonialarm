@@ -5,7 +5,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import '../models/alarm_payload.dart';
-import 'callkit_service.dart';
 
 /// Bridges between FCM/APNs and the platform-native loud-alert path.
 ///
@@ -15,8 +14,12 @@ import 'callkit_service.dart';
 /// user grants notification-policy access, the channel actually fires
 /// past Do Not Disturb.
 ///
-/// iOS: routes to CallKit so a "phone call" rings the device with the
-/// system ringtone — passes silent mode + Focus modes by design.
+/// iOS: uses APNs Critical Alerts. The push payload from the backend
+/// must include `aps.sound.critical = 1` and `aps.sound.volume`. This
+/// bypasses silent-mode + every Focus mode + DND. **Requires the
+/// `com.apple.developer.usernotifications.critical-alerts` entitlement
+/// granted by Apple Developer Relations.** Until granted, iOS app is
+/// not released to the App Store.
 class NotificationService {
   NotificationService._();
   static final instance = NotificationService._();
@@ -36,7 +39,7 @@ class NotificationService {
       requestAlertPermission: true,
       requestBadgePermission: true,
       requestSoundPermission: true,
-      requestCriticalPermission: true,
+      requestCriticalPermission: true, // iOS Critical Alerts opt-in
     );
     await _plugin.initialize(const InitializationSettings(android: android, iOS: ios));
 
@@ -58,6 +61,11 @@ class NotificationService {
     }
 
     if (Platform.isIOS) {
+      // Critical Alerts permission. Requires Apple-issued entitlement —
+      // until granted, this returns false and iOS notifications fall
+      // back to standard delivery (which silent-mode users will miss).
+      // We do NOT ship iOS to the App Store before the entitlement is
+      // approved.
       await FirebaseMessaging.instance.requestPermission(
         alert: true,
         badge: true,
@@ -72,38 +80,40 @@ class NotificationService {
   Future<void> showAlarmFromRemote(RemoteMessage message) async {
     final payload = AlarmPayload.fromRemote(message);
 
-    if (Platform.isIOS) {
-      // iOS DND-bypass goes via CallKit, NOT a banner notification.
-      // The data-only push triggers the CallKit incoming-call UI.
-      await CallKitService.instance.showIncomingCall(payload);
-      return;
-    }
+    final iosDetails = const DarwinNotificationDetails(
+      // Critical Alerts — bypasses silent + DND + every Focus mode.
+      // Requires Apple-issued entitlement. Without entitlement this
+      // flag is ignored and the notification behaves as standard.
+      interruptionLevel: InterruptionLevel.critical,
+      sound: 'siren.caf',
+      presentSound: true,
+      presentAlert: true,
+      presentBadge: true,
+    );
 
-    final details = NotificationDetails(
-      android: AndroidNotificationDetails(
-        _alarmChannelId,
-        _alarmChannelName,
-        channelDescription: _alarmChannelDesc,
-        importance: Importance.max,
-        priority: Priority.max,
-        category: AndroidNotificationCategory.alarm,
-        fullScreenIntent: true,
-        playSound: true,
-        sound: const RawResourceAndroidNotificationSound('siren'),
-        audioAttributesUsage: AudioAttributesUsage.alarm,
-        enableVibration: true,
-        ongoing: true,
-        autoCancel: false,
-        visibility: NotificationVisibility.public,
-        styleInformation: BigTextStyleInformation(payload.text),
-      ),
+    final androidDetails = AndroidNotificationDetails(
+      _alarmChannelId,
+      _alarmChannelName,
+      channelDescription: _alarmChannelDesc,
+      importance: Importance.max,
+      priority: Priority.max,
+      category: AndroidNotificationCategory.alarm,
+      fullScreenIntent: true,
+      playSound: true,
+      sound: const RawResourceAndroidNotificationSound('siren'),
+      audioAttributesUsage: AudioAttributesUsage.alarm,
+      enableVibration: true,
+      ongoing: true,
+      autoCancel: false,
+      visibility: NotificationVisibility.public,
+      styleInformation: BigTextStyleInformation(payload.text),
     );
 
     await _plugin.show(
       payload.alertId.hashCode,
       payload.title,
       payload.text,
-      details,
+      NotificationDetails(android: androidDetails, iOS: iosDetails),
       payload: payload.toMap().toString(),
     );
   }
@@ -119,26 +129,33 @@ class NotificationService {
       startDate: DateTime.now().toUtc().toIso8601String(),
       endDate: '',
     );
-    if (Platform.isIOS) {
-      await CallKitService.instance.showIncomingCall(p);
-      return;
-    }
-    final details = NotificationDetails(
-      android: AndroidNotificationDetails(
-        _alarmChannelId,
-        _alarmChannelName,
-        channelDescription: _alarmChannelDesc,
-        importance: Importance.max,
-        priority: Priority.max,
-        category: AndroidNotificationCategory.alarm,
-        fullScreenIntent: true,
-        playSound: true,
-        sound: const RawResourceAndroidNotificationSound('siren'),
-        audioAttributesUsage: AudioAttributesUsage.alarm,
-        enableVibration: true,
-      ),
+
+    final iosDetails = const DarwinNotificationDetails(
+      interruptionLevel: InterruptionLevel.critical,
+      sound: 'siren.caf',
+      presentSound: true,
+      presentAlert: true,
+      presentBadge: true,
     );
-    await _plugin.show(p.alertId.hashCode, p.title, p.text, details);
+    final androidDetails = AndroidNotificationDetails(
+      _alarmChannelId,
+      _alarmChannelName,
+      channelDescription: _alarmChannelDesc,
+      importance: Importance.max,
+      priority: Priority.max,
+      category: AndroidNotificationCategory.alarm,
+      fullScreenIntent: true,
+      playSound: true,
+      sound: const RawResourceAndroidNotificationSound('siren'),
+      audioAttributesUsage: AudioAttributesUsage.alarm,
+      enableVibration: true,
+    );
+    await _plugin.show(
+      p.alertId.hashCode,
+      p.title,
+      p.text,
+      NotificationDetails(android: androidDetails, iOS: iosDetails),
+    );
     debugPrint('local test notification posted');
   }
 

@@ -18,10 +18,7 @@ dependencies:
   # Local notifications — needed for foreground notifications + Android channel control
   flutter_local_notifications: ^17.2.3
 
-  # CallKit incoming-call UI for iOS DND-bypass
-  flutter_callkit_incoming: ^2.5.2
-
-  # Looped siren playback once user "answers" the call
+  # In-app looped siren playback after the OS-level alert has fired
   audioplayers: ^6.1.0
 
   # Permissions (notification, DND-policy)

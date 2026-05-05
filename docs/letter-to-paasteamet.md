@@ -53,7 +53,7 @@ Päästeamet on ise [avalikult tunnistanud](https://news.err.ee/1609984362/eston
 
 Avatud lähtekoodiga, mittetululine iOS- ja Android-rakendus, mis:
 
-1. **Möirgab läbi vaikse režiimi ja DND** — Android'is `USAGE_ALARM` audio-attributes'i ja `enableBypassDnd(true)` peal, iOS'is APNs Critical Alerts entitlement'i (mille me Apple'ilt taotleksime) või vahe-lahendusena CallKit "sissetuleva kõne" UI peal, mis süsteemiringtone mängib läbi vaikse režiimi.
+1. **Möirgab läbi vaikse režiimi ja Do Not Disturb** — Android'is `NotificationChannel` `USAGE_ALARM` audio-attributes'iga + `enableBypassDnd(true)` + `ACCESS_NOTIFICATION_POLICY` permissioon. iOS'is APNs Critical Alerts entitlement (`com.apple.developer.usernotifications.critical-alerts`), mille meie taotleme Apple'ilt enne avalikku launch'i. Apple annab seda entitlement'it ainult riigi-tasandi public-safety / health / emergency äppidele — meie taotluse põhjenduseks viitame just käesolevale teie pöördumisele ja Päästeameti enda tunnistusele, et SMS-kanal pole piisav. **Apple'i positiivne vastus on iOS App Store'i lansseerimise eeltingimus.**
 
 2. **Töötab ka välismaal** olevatele eestlastele, kes tahavad olla teadlikud kodumaal toimuvast (mis SMS-süsteemiga pole võimalik, sest SMS jõuab ainult kohaliku raku peale).
 

@@ -38,9 +38,8 @@ iOS- ja Android-rakendus, mis:
 
 | Funktsioon | Tehnoloogia |
 |---|---|
-| **Möirgab läbi vaikse režiimi (Android)** | `NotificationChannel` `USAGE_ALARM` audio-attributes'iga + `enableBypassDnd(true)` + custom alarm sound |
-| **Möirgab läbi DND (iOS) — kohe** | CallKit "sissetuleva kõne" UI, mis süsteemiringtone'i mängib läbi vaikse režiimi |
-| **Möirgab läbi DND (iOS) — õige tee** | APNs Critical Alerts entitlement (`com.apple.developer.usernotifications.critical-alerts`) — Apple'ilt taotletud |
+| **Möirgab läbi vaikse režiimi ja DND (Android)** | `NotificationChannel` `USAGE_ALARM` audio-attributes'iga + `enableBypassDnd(true)` + custom alarm sound + `ACCESS_NOTIFICATION_POLICY` permissioon |
+| **Möirgab läbi vaikse režiimi ja DND (iOS)** | APNs Critical Alerts entitlement `com.apple.developer.usernotifications.critical-alerts` — taotleme Apple'ilt enne avalikku launch'i |
 | **Töötab välismaal** | Push üle APNs/FCM, ei sõltu Eesti raku-piirkonnast |
 | **Töötab ka ilma internetita (eesmärk)** | Android `READ_SMS` luba EE-ALARM saatja peal — vajab Google Play Permissions Declaration ja koostööd Päästeametiga |
 | **Maakonna-valik** | Anonüümne, kohalik, ei saadeta serverile, EHAK koodi alusel |
@@ -90,9 +89,9 @@ Pollib `/api/sitrep/v1/full-events` iga minut ja kogub kõik vaadelused Cloudfla
 - [x] API forensic analüüs lõpetatud, dokumenteeritud
 - [x] Ametlik pöördumine Päästeameti / RIA / SMIT-ile koostatud
 - [ ] Flutter app'i scaffold (iOS + Android, baas-MVP)
-- [ ] Backend (Go) — pollib SITREP, dispatchib FCM (Android) + APNs VoIP/Critical (iOS)
-- [ ] iOS CallKit DND-bypass
+- [ ] Backend (Go) — pollib SITREP, dispatchib FCM (Android) + APNs Critical Alerts (iOS)
 - [ ] Android USAGE_ALARM channel + bypassDnd
+- [ ] iOS APNs Critical Alerts integratsioon (tingitud Apple'i entitlement-vastusele)
 - [ ] Maakonna-valik UI (EHAK põhine, anonüümne)
 - [ ] Disclaimer kõikidel ekraanidel ("MITTEAMETLIK")
 - [ ] TestFlight + Google Play Internal Testing
@@ -108,10 +107,11 @@ Pollib `/api/sitrep/v1/full-events` iga minut ja kogub kõik vaadelused Cloudfla
 
 **Katvus:** ~100% EE-ALARM aktivatsioonidest, sh regionaalsed lühikesed.
 
-### Phase 1.2 — Apple Critical Alerts entitlement
-- [ ] Taotleme `com.apple.developer.usernotifications.critical-alerts` entitlement'it Apple'ilt
-- [ ] Kui antakse, vahetame iOS DND-bypass mehhanismi CallKit'ist Critical Alerts'iks (õigem UX, vähem segadust kasutajatega)
-- CallKit jääb fallback'iks
+### Phase 1.2 — Apple Critical Alerts entitlement (iOS launch'i eeldus)
+- [ ] Taotleme `com.apple.developer.usernotifications.critical-alerts` entitlement'it Apple'ilt — vorm [Apple Developer Contact'is](https://developer.apple.com/contact/request/notifications-critical-alerts/)
+- [ ] Põhjendus: public-safety drone alert re-broadcast Eesti elanikele, mis töötab koostöös Päästeametiga (viidatud koos AvTS pöördumisega)
+- [ ] Apple'i tüüpiline läbivaatus 2-4 nädalat — kuni vastuseni iOS app'i App Store'i ei lansseeri
+- [ ] Entitlement käes → APNs `apns-priority: 10` + `sound.critical: 1` payload, läbib iga vaikse režiimi ja DND seade
 
 ### Phase 2 — Ametlik partnerlus
 - [ ] Vastus AvTS taotlusele Päästeametilt / SMIT-ilt
@@ -192,7 +192,7 @@ The Estonian state warning system currently sends drone-incursion alerts via loc
 
 This project bridges that gap by polling Estonia's public SITREP API (`api.app.eesti.ee/api/sitrep/v1/full-events`, no auth) every minute and pushing emergency-priority notifications to subscribed devices using:
 - **Android:** `USAGE_ALARM` notification channel with `enableBypassDnd(true)`
-- **iOS:** CallKit incoming-call ringtone (immediate) or APNs Critical Alerts entitlement (under application from Apple)
+- **iOS:** APNs Critical Alerts entitlement (`com.apple.developer.usernotifications.critical-alerts`), under application from Apple — iOS launch is conditional on Apple's approval.
 
 Coverage is currently ~80% of EE-ALARM activations (large nationwide and multi-region events). Regional micro-alerts (single county, under 2 hours) require a relay-phone architecture (Phase 1.1) or formal partnership with Päästeamet/RIA (Phase 2).
 

@@ -57,7 +57,7 @@ Iga PR peab kirjeldama:
 ## Testing
 
 Eriti tähtis on testida:
-- DND-bypass tegelikult töötab (Android USAGE_ALARM, iOS CallKit) — vajab füüsilist seadet
+- DND-bypass tegelikult töötab (Android USAGE_ALARM, iOS APNs Critical Alerts) — vajab füüsilist seadet ja iOS-pool entitlement'i Apple'i poolt
 - False-positive määr — me ei tohi alert'ida tavapärase Päästeameti uudise peale (nt "Sireeni-test toimub kell 12.00"). Kasutage logger'i andmetest reaal-juhtumeid testimiseks.
 - Latentsus — keskmine kättetoimetamise aeg poll'ist push'ini < 5s
 

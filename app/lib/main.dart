@@ -8,9 +8,9 @@ import 'screens/county_picker_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/onboarding_screen.dart';
 import 'services/alarm_service.dart';
-import 'services/callkit_service.dart';
 import 'services/notification_service.dart';
 import 'services/registration_service.dart';
+import 'models/alarm_payload.dart';
 
 /// Background isolate handler for FCM. Must be a top-level function.
 @pragma('vm:entry-point')
@@ -26,7 +26,6 @@ Future<void> main() async {
   FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundHandler);
 
   await NotificationService.instance.init();
-  await CallKitService.instance.init();
 
   runApp(const DroonialarmApp());
 }
@@ -73,14 +72,6 @@ class _DroonialarmAppState extends State<DroonialarmApp> {
         arguments: AlarmPayload.fromRemote(msg),
       );
     });
-
-    CallKitService.instance.onAccepted = (payload) async {
-      await AlarmService.instance.startSiren();
-      navigatorKey.currentState?.pushNamed(
-        '/alarm',
-        arguments: payload,
-      );
-    };
   }
 
   @override

@@ -6,7 +6,7 @@
 //	export APNS_KEY_P8=/path/to/AuthKey_XXXX.p8
 //	export APNS_KEY_ID=ABCDE12345
 //	export APNS_TEAM_ID=ZZZZZZ
-//	export APNS_BUNDLE=ee.droonialarm.voip
+//	export APNS_BUNDLE=ee.droonialarm
 //	export APNS_PRODUCTION=1
 //	export DB_PATH=./alarm.db
 //	go run .
@@ -327,7 +327,12 @@ func (d *dispatcher) pushFCM(ctx context.Context, ehak string, eventID int64, a 
 	log.Printf("FCM sent topic=%s msgID=%s", topic, id)
 }
 
-// pushAPNsAll sends a VoIP-style push to all registered iOS tokens.
+// pushAPNsAll sends a Critical Alert push to all registered iOS tokens.
+//
+// Requires the `com.apple.developer.usernotifications.critical-alerts`
+// entitlement granted by Apple. The payload's `aps.sound` includes
+// `critical: 1` and `volume`, which iOS honours only when the
+// entitlement is present.
 func (d *dispatcher) pushAPNsAll(ctx context.Context, eventID int64, a sitrepAlert, title, text string) {
 	if d.apns == nil {
 		return
@@ -341,7 +346,13 @@ func (d *dispatcher) pushAPNsAll(ctx context.Context, eventID int64, a sitrepAle
 	pl := apnsPayload.NewPayload().
 		AlertTitle(title).
 		AlertBody(text).
-		Sound("default").
+		// Critical Alert sound dictionary — bypasses silent + DND.
+		Sound(map[string]any{
+			"critical": 1,
+			"name":     "siren.caf",
+			"volume":   1.0,
+		}).
+		InterruptionLevel(apnsPayload.InterruptionLevelCritical).
 		Custom("event_id", fmt.Sprintf("%d", eventID)).
 		Custom("alert_id", fmt.Sprintf("%d", a.ID)).
 		Custom("title", title).
@@ -354,8 +365,8 @@ func (d *dispatcher) pushAPNsAll(ctx context.Context, eventID int64, a sitrepAle
 		}
 		notif := &apns2.Notification{
 			DeviceToken: tok,
-			Topic:       d.apnsBundle, // VoIP topic = <bundle>.voip
-			PushType:    apns2.PushTypeVOIP,
+			Topic:       d.apnsBundle,
+			PushType:    apns2.PushTypeAlert,
 			Priority:    apns2.PriorityHigh,
 			Payload:     pl,
 		}

@@ -26,16 +26,16 @@
 │  Android app   │            │  iOS app       │
 │  (Flutter)     │            │  (Flutter)     │
 │                │            │                │
-│  USAGE_ALARM   │            │  CallKit       │
-│  channel,      │            │  "sissetulev   │
-│  bypassDnd=    │            │  kõne" UI →    │
-│  true          │            │  süsteemi-     │
-│                │            │  ringtone      │
-│  Custom siren  │            │                │
-│  loop          │            │  (hiljem:      │
-│                │            │   Critical     │
-│                │            │   Alerts kui   │
-│                │            │   Apple lubab) │
+│  USAGE_ALARM   │            │  APNs          │
+│  channel,      │            │  Critical      │
+│  bypassDnd=    │            │  Alerts        │
+│  true,         │            │  entitlement   │
+│  custom siren  │            │  (Apple-       │
+│  loop          │            │  issued)       │
+│                │            │                │
+│                │            │  iOS launch    │
+│                │            │  ootab Apple'i │
+│                │            │  vastust       │
 └────────────────┘            └────────────────┘
 ```
 
@@ -54,8 +54,8 @@
 2. Meie Go backend pollib endpoint'i 10-60s tagant
 3. Backend võrdleb (alert_id, content_digest)'i SQLite state'iga; uus → dispatch
 4. FCM topic push (Android) — kasutaja äpp võtab vastu, näitab USAGE_ALARM channel'iga
-5. APNs VoIP push (iOS) — kasutaja äpp võtab vastu, käivitab CallKit kõne
-6. Telefon möirgab läbi vaikse režiimi
+5. APNs Critical Alert push (iOS) — kasutaja äpp võtab vastu, süsteem mängib alarm-heli läbi vaikse režiimi (entitlement antud Apple'i poolt)
+6. Telefon möirgab läbi vaikse režiimi ja kõikide DND / Focus seadete
 
 ### Phase 1.0 piirangud
 

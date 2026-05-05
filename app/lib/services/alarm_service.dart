@@ -1,10 +1,9 @@
 import 'package:audioplayers/audioplayers.dart';
 
-/// In-app looped siren — fires once user has visible UI (after
-/// answering the CallKit call on iOS, or tapping the alarm
-/// notification on Android). Independent of the per-platform
-/// ringing layer, so it keeps the user engaged with the alert
-/// even after the OS-level ringtone fades.
+/// In-app looped siren — fires once the user opens the alarm screen
+/// (typically after the OS-level Critical Alert / USAGE_ALARM
+/// notification has already woken them). Keeps the user engaged with
+/// the alert even after the system ringtone fades.
 class AlarmService {
   AlarmService._();
   static final instance = AlarmService._();

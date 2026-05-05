@@ -22,8 +22,8 @@ class RegistrationService {
 
     String? token;
     if (Platform.isIOS) {
-      // iOS uses APNs directly via VoIP push — we still grab the FCM token
-      // for analytics/symmetry.
+      // iOS uses APNs Critical Alerts (Apple-issued entitlement) — we
+      // still grab the FCM token alongside for analytics/symmetry.
       token = await FirebaseMessaging.instance.getAPNSToken();
     } else {
       token = await FirebaseMessaging.instance.getToken();
