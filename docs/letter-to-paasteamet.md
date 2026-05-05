@@ -36,16 +36,28 @@ Avatud lähtekoodiga, mittetululine iOS- ja Android-rakendus, mis:
 
 ### Mida me oleme tehniliselt avastanud
 
-Eesti äpi avalikust lähtekoodist ([koodivaramu.eesti.ee/eesti.app/app-frontend-public](https://koodivaramu.eesti.ee/eesti.app/app-frontend-public)) ja avalikust APK'st ekstraheerides leidsime, et:
+Eesti äpi **avalikust Flutter source koodist** ([koodivaramu.eesti.ee/eesti.app/app-frontend-public](https://koodivaramu.eesti.ee/eesti.app/app-frontend-public), mille RIA ise on avalikult kättesaadavaks teinud) leidsime järgmist:
 
-- `https://api.app.eesti.ee/api/sitrep/v1/full-events` on **autentimist mitte nõudev avalik endpoint**, mis tagastab 10 viimast SITREP event'i koos täieliku ET/EN/RU sisuga, GeoJSON polügoonide, EHAK koodide ja alert state-tega.
+1. Failis [`lib/services/api/sitrep_service.dart`](https://koodivaramu.eesti.ee/eesti.app/app-frontend-public/-/raw/main/lib/services/api/sitrep_service.dart) on selgesõnaliselt kirjas endpoint:
+   ```dart
+   final data = await _httpService.get('/api/sitrep/v1/full-events');
+   ```
+2. Host nimi `api.app.eesti.ee` järgib levinud subdomeini-konventsiooni (kui rakendus elab `app.eesti.ee`'s, siis selle API tavaliselt `api.app.eesti.ee`'s) ja on lihtsalt veebibrauseris kontrollitav.
+
+Kontrollisime endpoint'i avalikkust standardse `curl`-i abil:
+
+- `GET https://api.app.eesti.ee/api/sitrep/v1/full-events` vastab **HTTP 200** ilma autentimiseta.
+- Vastus on JSON, mis sisaldab 10 viimast SITREP event'i koos täieliku ET/EN/RU sisuga, GeoJSON polügoonidega ja alert state-tega.
 - Latentsus on tegelik ~0 sekundit alarmi väljastamise hetkega, sest see on sama backend mis toimetab teavitusi Eesti äpi FCM topic'utele.
-- **AGA** see endpoint kannab **ainult pikemalt aktiivseid suuremaid event'e** — näiteks 25.03 ja 31.03 nationwide/multi-region droonihäired on olemas, kuid 3.05 üksiku-maakonna (Võrumaa) lühikest häiret seal **ei ole**. Empiirika põhjal kannab see endpoint umbes **80%** EE-ALARM aktivatsioonidest, regionaalsed lühikesed alert'id (alla 2 tunni, üksik maakond) jäävad katkemata.
 
-Selle empirika kontrollimiseks jookseb meil hetkel taustal Cloudflare Worker, mis pollib seda endpoint'i iga minut ja kogub andmeid avalikku andmebaasi (allikas avatud GitHub-is). Plaan on järgmiste nädalate jooksul mõõta:
+**Oluline tehniline täheldus:** see endpoint näib kandvat **ainult pikemalt aktiivseid suuremaid event'e** — näiteks 25.03 ja 31.03 nationwide/multi-region droonihäired on olemas, kuid 3.05 üksiku-maakonna (Võrumaa) lühikest häiret seal **ei ole**. Empiirika põhjal kannab see endpoint hinnanguliselt **~80%** EE-ALARM aktivatsioonidest; regionaalsed lühikesed alert'id (alla 2 tunni, üksik maakond) jäävad katmata. Selle põhjuse kinnitamine on üks taotluse eesmärke (vt **Taotlus 1**).
+
+Selle empirika kontrollimiseks jookseb meil taustal Cloudflare Worker, mis pollib seda endpoint'i iga minut (Cloudflare cron'i miinimum) ja kogub andmeid avalikku andmebaasi. Worker'i lähtekood ja kogutud andmed on **täielikult avalikud** GitHub-is: [github.com/marttirandma/droonialarm](https://github.com/marttirandma/droonialarm) ja dashboard'i URL: [droonialarm-sitrep-logger.zzpgkx8hcv.workers.dev](https://droonialarm-sitrep-logger.zzpgkx8hcv.workers.dev). Plaan on järgmiste nädalate jooksul mõõta:
 - mitmel protsendil aktiivsetest EE-ALARM aktivatsioonidest see API kannab event'i,
 - millal ja kui kaua need püsivad,
 - kas regionaalsetel on EHAK koodid külge.
+
+**Õiguslikust korrektsusest:** kogu meie tehniline analüüs põhineb (a) RIA enda avaldatud avalikul lähtekoodil ja (b) avalikul HTTPS endpoint'il, mis vastab autentimist mitte nõudvatele päringutele. Me ei ole läbinud ühtegi turvameedet ega autentimissüsteemi (KarS § 217 mõistes). Eesti äpi APK on avalikult Google Play'st saadav ning ühilduvuse tagamise eesmärgil dekompileerimine on lubatud Autoriõiguse seaduse § 25 alusel — meie tegevus jääb selle ulatusse.
 
 ### Konkreetsed taotlused
 
