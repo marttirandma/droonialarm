@@ -1,4 +1,4 @@
-module ee.drooniradar.alarm/backend
+module ee.droonialarm/backend
 
 go 1.22
 
