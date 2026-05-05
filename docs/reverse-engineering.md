@@ -190,3 +190,28 @@ Vt [`logger/README.md`](../logger/README.md). Live: [droonialarm-sitrep-logger.z
 2. **Tehniliselt on see VÄGA lihtsalt teostatav** — Eesti äpil tuleks lisada üks notification channel `USAGE_ALARM`'iga, üks `enableBypassDnd(true)` kõne, üks `ACCESS_NOTIFICATION_POLICY` permissioon, ja taotleda iOS Critical Alerts entitlement (Apple annab seda government-issuer'idele kahe nädalaga)
 3. **Põhiline takistus on poliitiline / kommunikatsioonipoliitiline**, mitte tehniline
 4. **Vahepeal vajame kolmandat osapoolt**, kes need lihtsad sammud astub. See projekt on selleks.
+
+---
+
+## Versiooni 1.24.0 kontroll (lisatud pärast esmast analüüsi)
+
+**Allikas:** APKMirror, build 399, 30.04.2026 release
+**APK SHA-256 (apkm bundle):** `c42c26689f93556d8468cbdb59ceddf4f590d014eed1a97d96e4788be4c9dde5`
+**Kontrolli kuupäev:** 5. mai 2026
+
+Pärast esmast 1.22.0 analüüsi laiendasime kontrolli ka uuemale Play Store versioonile 1.24.0, et veenduda kas RIA on vahepeal DND-bypass funktsionaalsust lisanud. **Tulemus: ei.**
+
+| Funktsioon | 1.22.0 | 1.24.0 |
+|---|---|---|
+| `USE_FULL_SCREEN_INTENT` | ❌ | ❌ |
+| `ACCESS_NOTIFICATION_POLICY` | ❌ | ❌ |
+| `flutter_local_notifications` plugin | ❌ | ❌ |
+| Custom audio (`res/raw/*`) | ❌ | ❌ |
+| `USAGE_ALARM` audio attribute koodis | ❌ | ❌ |
+| `enableBypassDnd(true)` koodis | ❌ | ❌ |
+| Default notification channel | `fcm_fallback / Miscellaneous` | sama |
+| SITREP / notification API endpoint'id | samad | samad |
+
+Ainus märkimisväärne muudatus 1.22 → 1.24: **`READ_EXTERNAL_STORAGE` permission'i eemaldamine** (privaatsuse paranemine, mitte alarmiga seotud). Native libapp.so suurus kasvas ~100KB — tüüpilised Flutter SDK / dependency uuendused.
+
+**Järeldus:** silent-mode-läbimise (DND-bypass) osas ei ole Eesti äpp arenenud. 7-kuust ajavahemikku, mille jooksul koodivaramu pole uuendatud aga Play Store on saanud 1.23 ja 1.24 release'id, on kasutatud minor muudatusteks — mitte alarming-arhitektuuri ümbertegemiseks.
