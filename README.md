@@ -13,6 +13,14 @@
 
 ---
 
+## 🎥 Video: probleemi ja lahenduse selgitus
+
+<video src="https://github.com/marttirandma/droonialarm/raw/main/docs/media/droonialarm-video.mp4" controls poster="https://raw.githubusercontent.com/marttirandma/droonialarm/main/docs/media/video-poster.jpg" width="480"></video>
+
+📱 [Originaal TikTok'is](https://www.tiktok.com/@rahanetis/video/7636266800195456278) · 🌐 [Video lehel koos kontekstiga](https://marttirandma.github.io/droonialarm/video/)
+
+---
+
 ## Probleem
 
 Eesti EE-ALARM süsteem saadab praegu droonihäireid ja teisi hädaolukorra teavitusi **location-based SMS**'ide kaudu. SMS'i tehnoloogiline puudus on:

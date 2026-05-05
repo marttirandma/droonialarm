@@ -9,6 +9,10 @@ title: Droonialarm
 >
 > **Ametlik kanal on EE-ALARM (1247) ja Päästeameti SMS.**
 
+## 🎥 Video
+
+- [**Probleemi ja lahenduse selgitus** (5 min)](video/) — TikTok video koos kontekstiga
+
 ## Avalikud dokumendid
 
 - [Projekti kokkuvõte](project-summary.html)
