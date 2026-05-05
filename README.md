@@ -51,7 +51,7 @@ iOS- ja Android-rakendus, mis:
 | **Möirgab läbi vaikse režiimi ja DND (Android)** | `NotificationChannel` `USAGE_ALARM` audio-attributes'iga + `enableBypassDnd(true)` + custom alarm sound + `ACCESS_NOTIFICATION_POLICY` permissioon |
 | **Möirgab läbi vaikse režiimi ja DND (iOS)** | APNs Critical Alerts entitlement `com.apple.developer.usernotifications.critical-alerts` — taotleme Apple'ilt enne avalikku launch'i |
 | **Töötab välismaal** | Push üle APNs/FCM, ei sõltu Eesti raku-piirkonnast |
-| **Töötab ka ilma internetita (eesmärk)** | Android `READ_SMS` luba EE-ALARM saatja peal — vajab Google Play Permissions Declaration ja koostööd Päästeametiga |
+| **Töötab ka ilma internetita** (ainult Android, eesmärk) | Android `READ_SMS` luba EE-ALARM saatja peal — vajab Google Play Permissions Declaration ja koostööd Päästeametiga. **iOS-il sama pole võimalik** — Apple ei eksponeeri ühtegi API SMS-i lugemiseks. iOS-kasutajad sõltuvad alati interneti-pushist. |
 | **Maakonna-valik** | Anonüümne, kohalik, ei saadeta serverile, EHAK koodi alusel |
 | **Avalik lähtekood** | MIT licence, kogu kood + andmed + dokumentatsioon avalik |
 

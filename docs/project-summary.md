@@ -23,7 +23,7 @@ iOS- ja Android-rakendus, mis:
 | Möirgab läbi vaikse režiimi ja DND (Android) | `NotificationChannel` `USAGE_ALARM` audio-attributes'iga + `enableBypassDnd(true)` + `ACCESS_NOTIFICATION_POLICY` permissioon |
 | Möirgab läbi vaikse režiimi ja DND (iOS) | APNs Critical Alerts entitlement (`com.apple.developer.usernotifications.critical-alerts`) — Apple'ilt taotletud, iOS launch'i eeltingimus |
 | Töötab välismaal | Push-teavitus läbi APNs/FCM, ei sõltu Eesti raku-piirkonnast |
-| Töötab ka ilma internetita | Android'is `READ_SMS` luba EE-ALARM saatja peal — nõuab Google Play Permissions Declaration ja koostööd Päästeametiga |
+| Töötab ka ilma internetita (Android-only) | Android'is `READ_SMS` luba EE-ALARM saatja peal — nõuab Google Play Permissions Declaration ja koostööd Päästeametiga. iOS-il pole Apple SMS-lugemise API'd, see funktsioon on ainult Android'il. |
 | Maakonna-valik | EHAK koodi alusel, anonüümselt, ilma sisselogimiseta |
 | Avalik lähtekood | MIT licence GitHub'is — kogu kood, dokumentatsioon, andmed avatud |
 

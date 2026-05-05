@@ -85,7 +85,7 @@ Avatud lähtekoodiga, mittetululine iOS- ja Android-rakendus, mis:
 
 2. **Töötab ka välismaal** olevatele eestlastele, kes tahavad olla teadlikud kodumaal toimuvast (mis SMS-süsteemiga pole võimalik, sest SMS jõuab ainult kohaliku raku peale).
 
-3. **Töötab ka ilma internetita** — kui kasutaja annab Android'is loa lugeda EE-ALARM saatja SMS'e, käivitame seadme alarmi otse SMS'i põhjal, ilma server'iga suhtlemiseta. Vajab Google Play Permissions Declaration Form'i läbimist, mille esitamine eeldab seda, et oleme kvalifitseeritud "safety/emergency tool" — mille tunnistuseks oleks ametlik koostöö Päästeameti või SMIT-iga.
+3. **Töötab ka ilma internetita (Android-only)** — kui kasutaja annab Android'is loa lugeda EE-ALARM saatja SMS'e, käivitame seadme alarmi otse SMS'i põhjal, ilma server'iga suhtlemiseta. Vajab Google Play Permissions Declaration Form'i läbimist, mille esitamine eeldab seda, et oleme kvalifitseeritud "safety/emergency tool" — mille tunnistuseks oleks ametlik koostöö Päästeameti või SMIT-iga. **iOS'is sama lahendust ei ole võimalik** — Apple ei luba ühelgi avaliku API kaudu äpil SMS-e lugeda. iOS-kasutajad jäävad seetõttu interneti-sõltuvaks (push'i kaudu).
 
 4. **On läbipaistev** — kogu lähtekood avalik GitHub'is, sõnastusega selgelt "MITTEAMETLIK — ametlik kanal on EE-ALARM (1247) ja Päästeameti SMS." Kasutaja teab alati, et ta kasutab kolmanda osapoole teenust, ja et lõpliku otsuse ohu kohta langetab ta riigi ametliku kanali järgi.
 
