@@ -35,6 +35,12 @@ iOS- ja Android-rakendus, mis:
 
 Regionaalsete alertide täielik katmine eeldaks koostööd Päästeameti / RIA / SMIT-iga — täpne tehniline lahendus on ametiasutuste otsustada (vt [letter-to-paasteamet](letter-to-paasteamet.md)).
 
+## Põhimõte: hädaolukorra teavitus ei tohi olla autentimise taga
+
+Eesti äpp nõuab Mobiil-ID / Smart-ID / ID-kaardi sisselogimist. Selle väljendab on lapsed, eakad, välismaal elavad eestlased, turistid — kõik kellel pole hetkel praktilist e-ID-d. Sireen ja SMS ja cell broadcast aga ei küsi kelleltki kes kuuleb — nad jõuavad igale telefonile raku all.
+
+**Hädaolukorra teavitus peab töötama samal põhimõttel: maksimaalne katvus, ilma autentimise barjäärita.** Eesmärk on **elusid päästa**, mitte kasutajaid riigi-portaali registreerida. Selle tõttu meie äpp ei küsi sisselogimist, ei küsi PII'd, ei küsi e-ID'd.
+
 ## Privaatsus
 
 - Ei küsi sisselogimist

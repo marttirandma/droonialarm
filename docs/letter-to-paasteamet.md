@@ -49,6 +49,29 @@ Olen ise praegu Balil, **mu tütar elab Eestis**. Pärast 25. märtsi Auvere dro
 
 Päästeamet on ise [avalikult tunnistanud](https://news.err.ee/1609984362/estonia-to-introduce-cell-broadcast-emergency-alert-system-in-2027), et 3-5% õppuse Siil 2025 ajal ei saanud SMS'i üldse, ja et SMS-süsteem on "liiga aeglane ja ebausaldusväärne". Cell broadcast'i hange (€3,7M) on käimas, operatiivne 2027. Kuni selle ajani jääb avalik kasutaja **ebausaldusväärse kanali** kätte vahele.
 
+### Eraldi probleem: Eesti äpi sisselogimise-barjäär
+
+Olen näinud, et üks võimalik vastuargument oleks: "kasutage Eesti äppi". Tahan juba ette välja tuua, miks see ei ole hädaolukorra-teavituste jaoks piisav lahendus, ning miks loodame, et te seda ka oma sisemises arutelus arvestate:
+
+**1. Mul isiklikult ei ole võimalust Eesti äppi kasutada.** Mul ei ole hetkel ei Mobiil-ID'd, Smart-ID'd, ega Eesti ID-kaardi lugemisseadmega arvutit. Olen püsivalt välismaal, kus e-residentsuse-väliste lahenduste kasutuselevõtt pole praktiline. Eesti äpp nõuab autentimist nende meetodite kaudu — ja seetõttu ei avane mulle isegi see kanal, mille olemasolu te võiksite pakkuda lahendusena.
+
+**2. See pole minu individuaalne probleem.** Sama olukorras on:
+- **Lapsed ja noored alla 15-aastased**, kellel pole veel täisealist isikukoodi-põhist e-ID-d (nt minu tütar Eestis);
+- **Eakad inimesed**, kes pole kunagi e-ID kasutamist omandanud (nt minu enda ema);
+- **Välismaalt naasevad eestlased**, kelle Mobiil-ID on aegunud või kes ootavad uut SIM-kaarti;
+- **Püsivad välismaal elavad eestlased**, kellel on huvi kodumaa hädaolukordade vastu (perekond, sõbrad, vara);
+- **Eestis viibivad turistid, ajutised töötajad ja külalised**, kellel pole Eesti e-ID-d aga kes peavad samuti hädaolukorra teate vastu võtma.
+
+Kõik need rühmad on seaduslikult Eesti raku all SMS-i saamiseks õigustatud, kuid jäävad Eesti äpi-põhise lahenduse väliste hulka.
+
+**3. Hädaolukorra teavituse fundamentaalne loogika eeldab maksimaalset katvust ilma takistusteta.** Kui sireenid alla kärisevad, nad ei küsi kelleltki kes kuuleb. Kui SMS läheb, see läheb igale telefonile selles raku piirkonnas, sõltumata kasutaja identiteedist. EU Cell Broadcast standard (millele Eesti aastaks 2027 üle läheb) töötab samal põhimõttel: alert jõuab igale seadmele, mis on hetkel selle raku all, ilma et oleks vaja sisse logida.
+
+**Hädaolukorra teavitus ei tohiks kunagi olla autentimise taga.** Eesmärk on **elusid päästa**, mitte konkreetset äppi turundada või kasutajaid mõnda riigi-portaali registreerida.
+
+**4. Me palume kaaluda:** kui teie sisemises plaanis on Eesti äpi edasi-arendamine ohuteavituste paremaks saatmiseks, palun mõelge, et **see kanal — vähemalt ohuteavituste osas — võiks töötada ilma sisselogimiseta.** Eesti äpi muu funktsionaalsus (e-ID dokumendid, terviseandmed, jne) võib jääda autentimise taha — see on loomulik. Aga `/api/sitrep/v1/full-events` ja sellele tulevad alert'id peaksid olema kättesaadavad **igale seadmele, mis äpi paigaldab**, sõltumata kasutaja sisselogimise-staatusest.
+
+Kui see oleks juba olemas, ei oleks kolmandate osapoolte projekte nagu meie oma vajalik. Aga praegu — ja võibolla pikas perspektiivis ka — on alternatiivse, autentimisvaba kanaliga kolmandate osapoolte rakendused **vajalik täiendus**, mitte konkureeriv lahendus.
+
 ### Mida me tahame ehitada
 
 Avatud lähtekoodiga, mittetululine iOS- ja Android-rakendus, mis:
@@ -103,6 +126,8 @@ Pöördume teie poole **koostöö-soovi** vaimus. Pakume välja mõned tehnilise
 - järgima teie alert'i-eemaldamise / täpsustamise korraldusi viivitamata.
 
 Selline kokkulepe võiks olla ka aluseks Google Play Permissions Declaration Form'is "safety/emergency tool" tunnistuse hankimisele.
+
+**Võimalus 4 — Eesti äpis sisselogimisvaba alert-režiim:** kui te peate seda mõistlikuks oma sisemise arendusplaani osaks, palume kaaluda et Eesti äpis hädaolukorra teavitused (SITREP feed) töötaks **ka ilma kasutaja sisselogimiseta**. Eesti äpi muu funktsionaalsus võib jääda Mobiil-ID / Smart-ID taha — see on loomulik. Aga ohuteavituste osa võiks olla **vaikimisi sisse lülitatud iga äpi paigaldaja jaoks**, sõltumata e-ID-st. Selline lahendus kataks ka eelmainitud rühmad (lapsed, eakad, välismaalased, turistid) ja muudaks meie kolmandate osapoolte projekti suuremas osas üleliigseks. Kui te seda lahendust eelistate, oleme **rõõmsad oma projekti pausile panema või sulgema**, sest meie eesmärk pole olla Eesti äpi konkurent — meie eesmärk on, et alert jõuaks rohkemate inimesteni.
 
 Kui teil on **muud nägemus** — näiteks oma plaan kolmandate osapoolte API-tarbimise kohta, või soov et me lihtsalt ootaks 2027 cell broadcast'i välja — andke palun teada. Eesmärk on **ühine** lahendus, mille teie peate tehniliselt ja kommunikatsioonipoliitiliselt vastuvõetavaks.
 

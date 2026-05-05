@@ -32,6 +32,22 @@ Päästeamet on ise tunnistanud, et süsteem on **"liiga aeglane ja ebausaldusv�
 - **31. märts 2026 ~08:30 EET** — üleriigiline häire. Sama probleem.
 - **25. märts 2026** — Auvere droonirünnak. Sama probleem.
 
+## Põhimõte: hädaolukorra teavitus ei tohi olla autentimise taga
+
+Üks võimalik vastus probleemi peale on "kasutage Eesti äppi". Aga Eesti äpp nõuab Mobiil-ID, Smart-ID või ID-kaardi sisselogimist — mistõttu jäävad sellest **välja**:
+
+- Lapsed ja noored alla 15-aastased, kellel pole täisealist e-ID-d
+- Eakad inimesed, kes pole e-ID kasutamist omandanud
+- Välismaal elavad eestlased, kelle Mobiil-ID on aegunud või kes ootavad uut SIM-i
+- Eestis viibivad turistid ja ajutised töötajad
+- Igaüks, kel pole hetkel praktilist juurdepääsu e-ID-le
+
+**Sireen ei küsi sinu isikukoodi.** SMS ei küsi sinu Smart-ID'd. Cell broadcast (mis tuleb 2027) ei küsi sinult midagi — see jõuab igale seadmele raku all.
+
+**Hädaolukorra teavitus peab töötama samadel põhimõtetel: maksimaalne katvus, ilma autentimise barjäärita.** Eesmärk on **elusid päästa**, mitte konkreetse riigi-portaali kasutajaskonda kasvatada.
+
+Selle põhimõtte tõttu on meie äpp **avatud kõigile** — ei küsi sisselogimist, ei küsi PII'd, ei küsi e-ID'd. Maakonna-valik on anonüümne, kohalikus seadmes. Ja kui Päästeamet otsustab Eesti äpi edasi-arendamise käigus, et hädaolukorra teavitused võiksid sealt **ka ilma sisselogimiseta** kättesaadavad olla — see oleks igal juhul **õige tee**.
+
 ## Lahendus
 
 iOS- ja Android-rakendus, mis:

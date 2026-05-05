@@ -67,6 +67,8 @@ Users can disable Critical Alerts at any time via iOS Settings → Notifications
 
 5. **Real users impacted**: At least three independent Estonian residents have personally contacted the applicant after the 3 May 2026 Võrumaa drone alert, reporting that they did not hear the SMS because their phone was on silent. This includes the applicant's own mother. The applicant himself is currently abroad while his daughter remains in Estonia, with no way to ensure she hears alerts at night.
 
+6. **No alternative path exists for unauthenticated users.** Estonia's official "Eesti äpp" requires national e-ID authentication (Mobile-ID, Smart-ID, or ID-card) to use, which excludes children, the elderly without e-ID, foreign-resident Estonian citizens, tourists, and any user without practical e-ID access. The applicant is among this excluded group — he holds Estonian citizenship but has no current Mobile-ID or Smart-ID. Emergency alerts must work without authentication barriers; sirens and SMS do not require login, and EU Cell Broadcast (the standard Estonia is migrating to in 2027) reaches every device under the cell tower regardless of identity. Droonialarm reflects this principle: no login, no PII, no e-ID requirement.
+
 ### Project repository
 
 Full transparency: every line of code, every research finding, the SITREP API analysis, the rate-limiter logger that records what the public Estonian feed contains in real time, our privacy policy, and the formal letter to Estonian authorities — all are publicly available at:
