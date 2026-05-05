@@ -100,10 +100,38 @@ Pöördumine: avalik EE-ALARM teavituste reaalajas-kanali loomine kolmanda osapo
 <ol>
 <li><strong>Möirgab läbi vaikse režiimi ja Do Not Disturb</strong> — Android'is <code>NotificationChannel</code> <code>USAGE_ALARM</code> audio-attributes'iga + <code>enableBypassDnd(true)</code> + <code>ACCESS_NOTIFICATION_POLICY</code> permissioon. iOS'is APNs Critical Alerts entitlement (<code>com.apple.developer.usernotifications.critical-alerts</code>), mille meie taotleme Apple'ilt enne avalikku launch'i. Apple annab seda entitlement'it ainult riigi-tasandi public-safety / health / emergency äppidele — meie taotluse põhjenduseks viitame just käesolevale teie pöördumisele ja Päästeameti enda tunnistusele, et SMS-kanal pole piisav. <strong>Apple'i positiivne vastus on iOS App Store'i lansseerimise eeltingimus.</strong></li>
 <li><strong>Töötab ka välismaal</strong> olevatele eestlastele, kes tahavad olla teadlikud kodumaal toimuvast (mis SMS-süsteemiga pole võimalik, sest SMS jõuab ainult kohaliku raku peale).</li>
-<li><strong>Töötab ka ilma internetita (Android-only)</strong> — kui kasutaja annab Android'is loa lugeda EE-ALARM saatja SMS'e, käivitame seadme alarmi otse SMS'i põhjal, ilma server'iga suhtlemiseta. Vajab Google Play Permissions Declaration Form'i läbimist, mille esitamine eeldab seda, et oleme kvalifitseeritud "safety/emergency tool" — mille tunnistuseks oleks ametlik koostöö Päästeameti või SMIT-iga. <strong>iOS'is sama lahendust ei ole võimalik</strong> — Apple ei luba ühelgi avaliku API kaudu äpil SMS-e lugeda. iOS-kasutajad jäävad seetõttu interneti-sõltuvaks (push'i kaudu).</li>
+<li><strong>Töötab ka ilma internetita — Android'is (~56% Eesti nutitelefoni-kasutajatest, ~740 000 inimest)</strong>. Kui kasutaja annab Android'is loa lugeda EE-ALARM saatja SMS'e (<code>READ_SMS</code> permission), käivitame seadme alarmi otse SMS'i põhjal, ilma server'iga suhtlemiseta. Vajab Google Play Permissions Declaration Form'i läbimist, mille esitamine eeldab seda, et oleme kvalifitseeritud "safety/emergency tool" — mille tunnistuseks oleks ametlik koostöö Päästeameti või SMIT-iga.<br><br>
+<strong>iOS-il (~43% Eesti nutitelefoni-kasutajatest, ~570 000 inimest) sama lahendust ei ole praegu võimalik</strong> ehitada — Apple ei eksponeeri ühtegi avalikku API'd, mis lubaks äpil kasutaja SMS'e lugeda (<code>ILMessageFilterExtension</code> on sandboxed klassifitseerija, mis ei saa parent-äpiga andmeid jagada ega alarmi käivitada). iOS-kasutajad on seetõttu <strong>interneti-sõltuvad</strong> meie backend-push'i kaudu, kuni Apple omakorda 2027. aastal saabuva Eesti cell broadcast'i (<a href="https://support.apple.com/en-us/102516" style="color: #c41e3a;">WEA — Wireless Emergency Alerts</a>) natiivselt töödelda saab.<br><br>
+<strong>Me siiski otsime aktiivselt iOS-lahendusi</strong> — sealhulgas:
+<ul>
+<li><strong>Apple Watch standalone watchOS-äpp</strong> (cellular Watch'iga, oma võrgu kaudu) — võiks anda osalise katvuse Watch-kasutajatele;</li>
+<li><strong>Lobby Apple'iga</strong> spetsiaalse public-safety partnership entitlement'i jaoks (nt kui Päästeamet teeks Apple'ile co-signed partnership-päringu, oleks meil rohkem kaalu);</li>
+<li><strong>Erijuhtumite skeemid</strong> (näiteks Apple Wallet pass'id, geofence-event'id) — uurime, kas mõni neist mehhanismidest saab anda offline-võimaluse.</li>
+</ul>
+Hetkel on aus tõdeda: <strong>iOS offline-alarm on lahendamata, ja jääb selliseks kuni 2027 cell broadcast tuleb või Apple oma poliitikat muudab.</strong>
+</li>
 <li><strong>On läbipaistev</strong> — kogu lähtekood avalik GitHub'is, sõnastusega selgelt "MITTEAMETLIK — ametlik kanal on EE-ALARM (1247) ja Päästeameti SMS." Kasutaja teab alati, et ta kasutab kolmanda osapoole teenust, ja et lõpliku otsuse ohu kohta langetab ta riigi ametliku kanali järgi.</li>
 <li><strong>On Eesti elanike infoga ettevaatlik</strong> — kasutaja ei pea logima sisse, ei küsi Smart-ID'd, ei kogu PII'd. Maakonna-valik tehakse anonüümselt, andmeid ei müüda.</li>
 </ol>
+
+<h2 style="color: #c41e3a; font-size: 18px; margin-top: 28px;">Katvuse hinnang</h2>
+
+<p>Eesti nutitelefoni-statistika (<a href="https://gs.statcounter.com/os-market-share/mobile/estonia" style="color: #c41e3a;">StatCounter, aprill 2026</a>; <a href="https://datareportal.com/reports/digital-2025-estonia" style="color: #c41e3a;">DataReportal Digital 2025 Estonia</a>):</p>
+
+<table style="border-collapse: collapse; width: 100%; margin-bottom: 16px; font-size: 13px;">
+<tr style="background: #f5f5f5;"><th style="text-align: left; padding: 8px; border: 1px solid #ddd;">Tase</th><th style="text-align: left; padding: 8px; border: 1px solid #ddd;">Eesti kasutajaid</th><th style="text-align: left; padding: 8px; border: 1px solid #ddd;">Meie äpp katab</th></tr>
+<tr><td style="padding: 6px 8px; border: 1px solid #ddd;">Nutitelefoniga elanikud kokku (~97% penetratsioon)</td><td style="padding: 6px 8px; border: 1px solid #ddd;">~1 310 000</td><td style="padding: 6px 8px; border: 1px solid #ddd;">—</td></tr>
+<tr><td style="padding: 6px 8px; border: 1px solid #ddd;">Android (56,5%)</td><td style="padding: 6px 8px; border: 1px solid #ddd;">~740 000</td><td style="padding: 6px 8px; border: 1px solid #ddd;">✅ Online (USAGE_ALARM) + Offline (READ_SMS)</td></tr>
+<tr><td style="padding: 6px 8px; border: 1px solid #ddd;">iOS (43,4%)</td><td style="padding: 6px 8px; border: 1px solid #ddd;">~570 000</td><td style="padding: 6px 8px; border: 1px solid #ddd;">✅ Online (Critical Alerts, kui Apple lubab) — Offline puudub kuni 2027</td></tr>
+</table>
+
+<p><strong>Kokkuvõttes:</strong></p>
+<ul>
+<li><strong>Online tähenduses (telefon võrgus, mis on enamikul ajast)</strong> — meie äpp katab ~100% Eesti nutitelefoni-kasutajatest, <strong>kui</strong> Apple Critical Alerts entitlement'i annab ja <strong>kui</strong> Päästeamet/RIA meiega koostöö-vormis kokkuleppele jõuab.</li>
+<li><strong>Offline tähenduses (võrk maas, kuid SMS jõuab)</strong> — Android-kasutajad (~740 000 = ~57% Eestist) saavad meie äpi kaudu siiski alarmi vastu, kui READ_SMS permission on antud. iOS-kasutajad jäävad selles olukorras kahjuks katmata, kuni cell broadcast 2027-l käivitub.</li>
+</ul>
+
+<p>iOS'i osakaal on viimase 18 kuuga kasvanud ~36%-lt ~43%-ni ja kasvab jätkuvalt ~1 protsendipunkti kvartalis. Seetõttu on iOS-poole katvus pikaajaliselt eriti oluline — ja just <strong>selle tõttu on Apple Critical Alerts entitlement Apple'ilt meie iOS-strateegia tuum</strong>. Kui Apple ei luba, jääb Eesti iOS-osa täielikult katmata kuni 2027.</p>
 
 <h2 style="color: #c41e3a; font-size: 18px; margin-top: 28px;">Mida me oleme tehniliselt avastanud</h2>
 
