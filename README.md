@@ -96,29 +96,19 @@ Pollib `/api/sitrep/v1/full-events` iga minut ja kogub kõik vaadelused Cloudfla
 - [ ] Disclaimer kõikidel ekraanidel ("MITTEAMETLIK")
 - [ ] TestFlight + Google Play Internal Testing
 
-**Katvus:** ~80% EE-ALARM aktivatsioonidest (suured nationwide / multi-region event'id). Regionaalsed lühikesed alert'id jäävad EE-ALARM SMS'i hooleks.
+**Katvus:** ~80% EE-ALARM aktivatsioonidest (suured nationwide / multi-region event'id, mis avalikus SITREP feed'is on). Regionaalsed lühikesed alert'id jäävad EE-ALARM SMS'i hooleks; täiendava katvuse saaks Päästeametiga ühises lahenduses (vt Phase 2).
 
-### Phase 1.1 — Android Notification Listener (regionaalse katvuse saavutamiseks)
-- [ ] Android `NotificationListenerService` lisamine kompanjon-äpina
-- [ ] Pixel-relay-telefon kuskil 24/7 elektri all, päris Eesti äpp peal, kõik maakonnad subscribitud
-- [ ] Relay-telefon edastab kinni-püütud notifid meie backend'ile
-- [ ] Backend dedupib + pushib edasi kõikidele
-- [ ] iOS-kasutajad saavad ka regionaalsed alert'id selle kõvera kaudu
-
-**Katvus:** ~100% EE-ALARM aktivatsioonidest, sh regionaalsed lühikesed.
-
-### Phase 1.2 — Apple Critical Alerts entitlement (iOS launch'i eeldus)
+### Phase 1.1 — Apple Critical Alerts entitlement (iOS launch'i eeldus)
 - [ ] Taotleme `com.apple.developer.usernotifications.critical-alerts` entitlement'it Apple'ilt — vorm [Apple Developer Contact'is](https://developer.apple.com/contact/request/notifications-critical-alerts/)
-- [ ] Põhjendus: public-safety drone alert re-broadcast Eesti elanikele, mis töötab koostöös Päästeametiga (viidatud koos AvTS pöördumisega)
+- [ ] Põhjendus: public-safety drone alert re-broadcast Eesti elanikele, mis töötab koostöös Päästeametiga
 - [ ] Apple'i tüüpiline läbivaatus 2-4 nädalat — kuni vastuseni iOS app'i App Store'i ei lansseeri
 - [ ] Entitlement käes → APNs `apns-priority: 10` + `sound.critical: 1` payload, läbib iga vaikse režiimi ja DND seade
 
-### Phase 2 — Ametlik partnerlus
-- [ ] Vastus AvTS taotlusele Päästeametilt / SMIT-ilt
-- [ ] Sõltuvalt vastusest:
-  - **Optimaalne:** RIA Firebase project'i FCM topic'utele lugemis-juurdepääs → Phase 1.1 relay-telefon ei vaja
-  - **Suboptimaalne:** ametlik koostöölepe + SITREP API täieliku spekifikatsiooni saamine → ~95% katvus
-  - **Kõige halvem:** keelduvad → jätkame Phase 1.1 relay-telefon strateegiaga
+### Phase 2 — Ametlik koostöö Päästeameti / RIA / SMIT-iga
+Eesmärk on **ühine** lahendus, mille tehnilise kuju otsustavad Päästeamet ja RIA. Pakume välja, et:
+- saaksime kinnituse, et avalik SITREP feed on lubatud kasutada;
+- vajadusel sõlmiksime ametliku koostöölepe (kommunikatsioonipoliitika, alert-täpsus, kasutaja-info kaitse);
+- kui see oleks kohaste tehniliste poolt mõistlik, võiksime teha rohkem (näiteks regionaalsete alertide tuum-feedi loomine), aga see on **täielikult Päästeameti / SMIT-i otsus**.
 
 ### Phase 3 — Cell broadcast era (2027+)
 Kui Eesti võtab kasutusele cell broadcast (EU-Alert), tõenäoliselt äpp pole enam vajalik. Sulgeme projekti, võimaldame andmebaasi ja koodi avalikku arhiivi avatud andmetena.
@@ -194,7 +184,7 @@ This project bridges that gap by polling Estonia's public SITREP API (`api.app.e
 - **Android:** `USAGE_ALARM` notification channel with `enableBypassDnd(true)`
 - **iOS:** APNs Critical Alerts entitlement (`com.apple.developer.usernotifications.critical-alerts`), under application from Apple — iOS launch is conditional on Apple's approval.
 
-Coverage is currently ~80% of EE-ALARM activations (large nationwide and multi-region events). Regional micro-alerts (single county, under 2 hours) require a relay-phone architecture (Phase 1.1) or formal partnership with Päästeamet/RIA (Phase 2).
+Coverage is currently ~80% of EE-ALARM activations (large nationwide and multi-region events). Regional micro-alerts (single county, under 2 hours) would require formal collaboration with Päästeamet/RIA — see Phase 2.
 
 The project is non-commercial, MIT-licensed, has no logins or PII collection, and is operated by [Martti Randma](mailto:randma.martti@gmail.com).
 

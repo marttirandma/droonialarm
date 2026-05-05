@@ -33,7 +33,7 @@ iOS- ja Android-rakendus, mis:
 
 **Piirang:** API kannab ainult pikemalt aktiivseid suuremaid event'e (~80% katvus). Regionaalseid lühikesi alert'e (üksik maakond, alla 2 tunni) sealt ei tule.
 
-**Lahendus piirangu jaoks:** Phase 1.1 lisab Android-relay-telefon, kuhu on paigaldatud päris Eesti äpp + meie kompanjon-äpp `NotificationListenerService`'iga. Kui Eesti äpp saab regionaalse FCM push'i, meie relay-telefon edastab selle meie backend'ile, kes pushib edasi kõikidele kasutajatele. Püüame ka 100% katvuse.
+Regionaalsete alertide täielik katmine eeldaks koostööd Päästeameti / RIA / SMIT-iga — täpne tehniline lahendus on ametiasutuste otsustada (vt [letter-to-paasteamet](letter-to-paasteamet.md)).
 
 ## Privaatsus
 

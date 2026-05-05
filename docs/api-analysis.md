@@ -160,11 +160,11 @@ Soovituslik polling-intervall: **10 sekundit** (lubab Cloudflare Worker'is ainul
 
 ## 8. Risk
 
-- **Endpoint võib igal hetkel autentitud-only kanaliks muuta.** Kui SMIT/RIA otsustab, oleme katki ja peame Phase 1.1 (relay-telefon) peale tagasi minema.
+- **Endpoint võib igal hetkel autentitud-only kanaliks muuta.** Kui SMIT/RIA niimoodi otsustab, oleme tehniliselt katki ja vajaks ametlikku kanalit.
 - **Schema võib muutuda.** v1 → v2 → v3 üleminekul peame kohanduma.
-- **Rate limit võib kõvastada.** Praegu pole, aga kui meil on suur kasutajaskond ja pollime tihedalt, võib SMIT meid blokkida.
+- **Rate limit võib kõvastada.** Praegu pole, aga kui meil on suur kasutajaskond ja pollime tihedalt, võib SMIT meid loomulikult piirata.
 
-**Maandus:** AvTS taotlus + ametlik partnerlus. Kui meil on ametlik kanal, oleme kaitstud.
+**Maandus:** ametlik dialoog Päästeameti / RIA / SMIT-iga. Kui meil on koostöölepe, on tehniline jätkusuutlikkus tagatud.
 
 ---
 

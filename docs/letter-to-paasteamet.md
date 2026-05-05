@@ -88,23 +88,23 @@ Selle empirika kontrollimiseks jookseb meil taustal Cloudflare Worker, mis polli
 
 **Õiguslikust korrektsusest:** kogu meie tehniline analüüs põhineb (a) RIA enda avaldatud avalikul lähtekoodil ja (b) avalikul HTTPS endpoint'il, mis vastab autentimist mitte nõudvatele päringutele. Me ei ole läbinud ühtegi turvameedet ega autentimissüsteemi (KarS § 217 mõistes). Eesti äpi APK on avalikult Google Play'st saadav ning ühilduvuse tagamise eesmärgil dekompileerimine on lubatud Autoriõiguse seaduse § 25 alusel — meie tegevus jääb selle ulatusse.
 
-### Konkreetsed taotlused
+### Mida me palume
 
-Esitan tehnilisi võimalusi, mille mõni rahuldaks meie eesmärki — palun valida sobivaim, või öelda kui ükski ei sobi, et saaksime AvTS § 14 alusel täpsustada:
+Pöördume teie poole **koostöö-soovi** vaimus. Pakume välja mõned tehnilised võimalused — täpse kuju ja sobivuse otsustate teie. Kui mõni neist sobib, oleme valmis kohanduma teie tingimustele. Kui ükski neist ei sobi täpselt nii, kuid teil on muu nägemus kuidas me saaksime sama eesmärki — Eesti elanike paremat ohuteavitust — saavutada, oleme avatud arutelule.
 
-**Taotlus 1 (kõige lihtsam — eelistatav):** **Kinnitage, et `https://api.app.eesti.ee/api/sitrep/v1/full-events` on avalikuks kasutuseks mõeldud**, ja palun selgitage milline filter sellele rakendub (miks regionaalsed lühikesed alert'id sealt välja jäävad). Kas saaksime saada **kõikide** EE-ALARM aktivatsioonide reaalajas-feed'i (kvoot- ja rate-limit-piirangutega, mis teile sobib)?
+**Võimalus 1 — avaliku SITREP feed'i kinnitus:** kas saaksite kinnitada, et `https://api.app.eesti.ee/api/sitrep/v1/full-events` on avalikuks kasutuseks mõeldud, ja kuidas see endpoint event'e valib (mis kriteeriumi alusel jäävad regionaalsed lühikesed alert'id sealt välja)? Kas pikemas perspektiivis oleks võimalik laiendada selle feed'i sisu nii, et see kataks ka regionaalseid alert'e? Selline kinnitus annaks meile (ja igale teisele potentsiaalsele kolmandale osapoolele) tehnilise selguse.
 
-**Taotlus 2:** **API spetsifikatsioon** — kas saaksime saada SITREP avaliku API (`/api/sitrep/v1/*` ja `/api/notification/v1/*`) OpenAPI / Swagger dokumentatsiooni? Praegu saame seda ainult libapp.so'st reverse-engineerida.
+**Võimalus 2 — API dokumentatsioon:** kas saaksite jagada SITREP avaliku API (`/api/sitrep/v1/*` ja `/api/notification/v1/*`) OpenAPI / Swagger dokumentatsiooni? See aitaks meil olla teie tehniliste muudatustega hästi sünkroonis ja vältida juhuslikku ühilduvuse-vigu.
 
-**Taotlus 3:** **Firebase Cloud Messaging topic'utele juurdepääs** — kas saaksite kaaluda, et lisate meie äpi (`ee.droonialarm` package) **lugemis-õigusega** RIA Firebase projekti FCM topic'utele (näiteks `prod-0086-et` Võru jne)? See võimaldaks meil otse vastu võtta sama push'i mis Eesti äpp saab, ilma Päästeameti backend'i kunagi ühenduma. Lugemis-juurdepääs ei anna meile õigust topic'utele midagi avaldada.
+**Võimalus 3 — ametlik koostöölepe:** kui te peate seda mõistlikuks, oleme valmis sõlmima ametliku koostöölepe Päästeametiga, milles me kohustuksime:
+- järgima teie kommunikatsioonipoliitikat (meie äpp kuvab alati ametliku 1247-numbri ja kriis.ee viite; ei lisa alert'idele omapoolset tõlgendust, vaid kuvab teie teksti muutmata kujul);
+- mitte koguma kasutajaandmeid kommertsteenuste eesmärgil;
+- jagama latentsus- ja kättetoimetatavus-statistikat teie tagasiside-võimalustena;
+- järgima teie alert'i-eemaldamise / täpsustamise korraldusi viivitamata.
 
-**Taotlus 4:** **Ametlik koostöölepe / partnership** — kui ülaltoodud tehnilised valikud ei sobi, oleme valmis sõlmima ametliku koostöölepe Päästeametiga, kus me kohustuksime:
-- järgima Päästeameti kommunikatsioonipoliitikat (näiteks: meie äpp kuvab alati ametliku 1247-numbri ja kriis.ee viite; ei vahenda ühegi alert'i kohta omapoolset arvamust, ainult kuvab Päästeameti teksti)
-- mitte koguma kasutajaandmeid kommertsteenuste eesmärgil
-- viivitamata käsitlema alert'isuhinguid mis võivad tekitada paanika
-- jagama oma latentsus- ja kättetoimetatavus-statistikat Päästeameti tagasiside-võimalustena
+Selline kokkulepe võiks olla ka aluseks Google Play Permissions Declaration Form'is "safety/emergency tool" tunnistuse hankimisele.
 
-Sellise lepingu alusel oleks ka Google Play Permissions Declaration Form'i jaoks vajaliku "safety/emergency tool" tunnistuse hankimine kergem.
+Kui teil on **muud nägemus** — näiteks oma plaan kolmandate osapoolte API-tarbimise kohta, või soov et me lihtsalt ootaks 2027 cell broadcast'i välja — andke palun teada. Eesmärk on **ühine** lahendus, mille teie peate tehniliselt ja kommunikatsioonipoliitiliselt vastuvõetavaks.
 
 ### Õiguslik alus
 

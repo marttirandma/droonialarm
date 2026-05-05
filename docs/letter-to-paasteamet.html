@@ -100,28 +100,27 @@ Pöördumine: avalik EE-ALARM teavituste reaalajas-kanali loomine kolmanda osapo
 <strong>Õiguslikust korrektsusest:</strong> kogu meie tehniline analüüs põhineb (a) RIA enda avaldatud avalikul lähtekoodil ja (b) avalikul HTTPS endpoint'il, mis vastab autentimist mitte nõudvatele päringutele. Me ei ole läbinud ühtegi turvameedet ega autentimissüsteemi (KarS § 217 mõistes). Eesti äpi APK on avalikult Google Play'st saadav ning ühilduvuse tagamise eesmärgil dekompileerimine on lubatud Autoriõiguse seaduse § 25 alusel — meie tegevus jääb selle ulatusse.
 </p>
 
-<h2 style="color: #c41e3a; font-size: 18px; margin-top: 28px;">Konkreetsed taotlused</h2>
+<h2 style="color: #c41e3a; font-size: 18px; margin-top: 28px;">Mida me palume</h2>
 
-<p>Esitan tehnilisi võimalusi, mille mõni rahuldaks meie eesmärki — palun valida sobivaim, või öelda kui ükski ei sobi, et saaksime AvTS § 14 alusel täpsustada:</p>
+<p>Pöördume teie poole <strong>koostöö-soovi</strong> vaimus. Pakume välja mõned tehnilised võimalused — täpse kuju ja sobivuse otsustate teie. Kui mõni neist sobib, oleme valmis kohanduma teie tingimustele. Kui ükski neist ei sobi täpselt nii, kuid teil on muu nägemus kuidas me saaksime sama eesmärki — Eesti elanike paremat ohuteavitust — saavutada, oleme avatud arutelule.</p>
 
-<h3 style="font-size: 16px;">Taotlus 1 (kõige lihtsam — eelistatav)</h3>
-<p><strong>Kinnitage, et <code>https://api.app.eesti.ee/api/sitrep/v1/full-events</code> on avalikuks kasutuseks mõeldud</strong>, ja palun selgitage milline filter sellele rakendub (miks regionaalsed lühikesed alert'id sealt välja jäävad). Kas saaksime saada <strong>kõikide</strong> EE-ALARM aktivatsioonide reaalajas-feed'i (kvoot- ja rate-limit-piirangutega, mis teile sobib)?</p>
+<h3 style="font-size: 16px;">Võimalus 1 — avaliku SITREP feed'i kinnitus</h3>
+<p>Kas saaksite kinnitada, et <code>https://api.app.eesti.ee/api/sitrep/v1/full-events</code> on avalikuks kasutuseks mõeldud, ja kuidas see endpoint event'e valib (mis kriteeriumi alusel jäävad regionaalsed lühikesed alert'id sealt välja)? Kas pikemas perspektiivis oleks võimalik laiendada selle feed'i sisu nii, et see kataks ka regionaalseid alert'e? Selline kinnitus annaks meile (ja igale teisele potentsiaalsele kolmandale osapoolele) tehnilise selguse.</p>
 
-<h3 style="font-size: 16px;">Taotlus 2</h3>
-<p><strong>API spetsifikatsioon</strong> — kas saaksime saada SITREP avaliku API (<code>/api/sitrep/v1/*</code> ja <code>/api/notification/v1/*</code>) OpenAPI / Swagger dokumentatsiooni? Praegu on dokumentatsioon ainult Eesti äpi avalikust source'ist tuletatav.</p>
+<h3 style="font-size: 16px;">Võimalus 2 — API dokumentatsioon</h3>
+<p>Kas saaksite jagada SITREP avaliku API (<code>/api/sitrep/v1/*</code> ja <code>/api/notification/v1/*</code>) OpenAPI / Swagger dokumentatsiooni? See aitaks meil olla teie tehniliste muudatustega hästi sünkroonis ja vältida juhuslikku ühilduvuse-vigu.</p>
 
-<h3 style="font-size: 16px;">Taotlus 3</h3>
-<p><strong>Firebase Cloud Messaging topic'utele juurdepääs</strong> — kas saaksite kaaluda, et lisate meie äpi (<code>ee.droonialarm</code> package) <strong>lugemis-õigusega</strong> RIA Firebase projekti FCM topic'utele (näiteks <code>prod-0086-et</code> Võru jne)? See võimaldaks meil otse vastu võtta sama push'i mis Eesti äpp saab, ilma Päästeameti backend'i kunagi ühenduma. Lugemis-juurdepääs ei anna meile õigust topic'utele midagi avaldada.</p>
-
-<h3 style="font-size: 16px;">Taotlus 4</h3>
-<p><strong>Ametlik koostöölepe / partnership</strong> — kui ülaltoodud tehnilised valikud ei sobi, oleme valmis sõlmima ametliku koostöölepe Päästeametiga, kus me kohustuksime:</p>
+<h3 style="font-size: 16px;">Võimalus 3 — ametlik koostöölepe</h3>
+<p>Kui te peate seda mõistlikuks, oleme valmis sõlmima ametliku koostöölepe Päästeametiga, milles me kohustuksime:</p>
 <ul>
-<li>järgima Päästeameti kommunikatsioonipoliitikat (näiteks: meie äpp kuvab alati ametliku 1247-numbri ja kriis.ee viite; ei vahenda ühegi alert'i kohta omapoolset arvamust, ainult kuvab Päästeameti teksti)</li>
-<li>mitte koguma kasutajaandmeid kommertsteenuste eesmärgil</li>
-<li>viivitamata käsitlema alert'i-suhinguid mis võivad tekitada paanika</li>
-<li>jagama oma latentsus- ja kättetoimetatavus-statistikat Päästeameti tagasiside-võimalustena</li>
+<li>järgima teie kommunikatsioonipoliitikat (meie äpp kuvab alati ametliku 1247-numbri ja kriis.ee viite; ei lisa alert'idele omapoolset tõlgendust, vaid kuvab teie teksti muutmata kujul);</li>
+<li>mitte koguma kasutajaandmeid kommertsteenuste eesmärgil;</li>
+<li>jagama latentsus- ja kättetoimetatavus-statistikat teie tagasiside-võimalustena;</li>
+<li>järgima teie alert'i-eemaldamise / täpsustamise korraldusi viivitamata.</li>
 </ul>
-<p>Sellise lepingu alusel oleks ka Google Play Permissions Declaration Form'i jaoks vajaliku "safety/emergency tool" tunnistuse hankimine kergem.</p>
+<p>Selline kokkulepe võiks olla ka aluseks Google Play Permissions Declaration Form'is "safety/emergency tool" tunnistuse hankimisele.</p>
+
+<p>Kui teil on <strong>muu nägemus</strong> — näiteks oma plaan kolmandate osapoolte API-tarbimise kohta, või soov et me lihtsalt ootaks 2027 cell broadcast'i välja — andke palun teada. Eesmärk on <strong>ühine</strong> lahendus, mille teie peate tehniliselt ja kommunikatsioonipoliitiliselt vastuvõetavaks.</p>
 
 <h2 style="color: #c41e3a; font-size: 18px; margin-top: 28px;">Õiguslik alus</h2>
 

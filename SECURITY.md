@@ -19,7 +19,6 @@ Security issues we are interested in:
 - Injection vulnerabilities (SQL, command, path) in the logger or backend
 - Cross-tenant data leakage between users
 - Push notification spoofing or hijack
-- Privilege escalation in the Android NotificationListenerService relay
 - Privacy regressions (PII leakage, geolocation tracking)
 - Supply-chain attacks via npm / Go modules / Flutter pubspec dependencies
 

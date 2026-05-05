@@ -64,77 +64,24 @@
 
 ---
 
-## Phase 1.1 — Android Notification Listener (regionaalse katvuse saavutamiseks)
+## Phase 1.1 — Apple Critical Alerts entitlement (iOS launch'i eeldus)
 
-```
-                 ┌──────────────────────────────┐
-                 │  Pixel 7 / Pixel 8 — relay   │
-                 │  - 24/7 elektri all          │
-                 │  - Päris Eesti äpp paigaldatud│
-                 │  - Kõik maakonnad subscribitud│
-                 │  - Meie kompanjon-äpp        │
-                 │    NotificationListenerService│
-                 └──────────────┬───────────────┘
-                                │
-                                │ HTTPS POST iga uue
-                                │ Eesti äpi push'i kohta
-                                │
-┌─────────────────────────────────────────────────────┐
-│  Backend (sama mis Phase 1.0)                       │
-│  - eraldi endpoint: /v1/relay-ingest                │
-│  - dedupib relay + SITREP API allikate vahel        │
-│  - dispatchib edasi nagu enne                       │
-└─────────────────────────────────────────────────────┘
-```
+iOS pool sõltub `com.apple.developer.usernotifications.critical-alerts` entitlement'i hankimisest Apple'ilt. Apple annab seda riigi-tasandi public-safety / health / emergency äppidele pärast 2-4 nädalat läbivaatust. Kuni vastuseni iOS-i App Store'i ei lansseerita.
 
-### Relay-telefon
-
-- **Riistvara:** Pixel 7 (~150€ kasutatuna) või Pixel 8 (~250€) — Google'i ametlik Android, kvaliteetne 24/7-tugi
-- **Asukoht:** kuskil Eestis (st kohaliku raku piirkonnas, et FCM topic'utel oleks lokaalne kontekst)
-- **Hooldus:** kord kuus läbi vaadata; reboot kui vaja
-- **Backup:** üks varu-Pixel sama setup'iga, et single-point-of-failure ei oleks
-
-### Privacy
-
-- Relay-telefonil pole Smart-ID/Mobile-ID logimist — anonüümne maakonnaseire
-- Eesti äpp ootab võibolla isikukoodi, aga FCM topic-subscribe töötab ka anonüümse kasutaja peal (testitud avalikust source'ist)
+Kui entitlement on käes, kasutame APNs payload'is `aps.sound = { critical: 1, name: "siren.caf", volume: 1.0 }` ja `interruption-level: critical`, mis läbib telefoni vaikse režiimi ja kõik Focus / DND seaded.
 
 ---
 
-## Phase 2 — Ametlik partnerlus (eelistatud lõpplahendus)
+## Phase 2 — Ametlik koostöö Päästeameti / RIA / SMIT-iga
 
-Kui Päästeamet / SMIT / RIA vastab AvTS taotlusele positiivselt:
+Eesmärk on **ühine** lahendus — täpne tehniline kuju on Päästeameti ja SMIT-i otsus. Pakume välja kolm võimalust, mis kõik sõltuvad **nende** valikust:
 
+1. **Avaliku SITREP feed'i kasutuse kinnitamine** — me jätkame `/api/sitrep/v1/full-events` polling'uga, ametlikus dialoogis on selgitatud katvuse-piirangud ja kvoot.
+2. **Ametlik koostöölepe** — kus oleme dokumenteeritud kui legitimse re-broadcast'i operaator, järgime Päästeameti kommunikatsioonipoliitikat ning saame vastutasuks kindluse, et meie tehnilist tegevust ei käsitleta süsteemi koormava või "varjuks" kanalina.
+3. **Tehniliselt rikkalikum kanal** — kui Päästeamet leiab, et see on mõistlik (näiteks selleks, et regionaalsed alert'id jõuaks ka iOS-kasutajateni välismaal), saame koostöös arendada eraldi feed'i või topic-pre-aksepteerimist. **See on täielikult Päästeameti / SMIT-i otsus**, mitte meie nõudmine.
+
+Igal juhul jääb meie äpp **ametliku EE-ALARM-kanali täienduseks**, mitte selle asendajaks. Disclaimer ja viide 1247-le on igal ekraanil.
 ```
-┌─────────────────────────────────────────────────────┐
-│  Variant A: Eraldatud read-only API endpoint        │
-│  https://api.app.eesti.ee/api/sitrep/v1/all-events  │
-│  - Kõik alert'id, sh regionaalsed lühikesed         │
-│  - Rate limit Päästeameti määratud (nt 1 päring/sek)│
-│  - Autenditud API key'ga                            │
-└──────────────────────┬──────────────────────────────┘
-                       │
-                       │  Sama backend kui enne, aga
-                       │  100% katvus
-                       ▼
-              [ülejäänud sama]
-```
-
-**VÕI**
-
-```
-┌─────────────────────────────────────────────────────┐
-│  Variant B: Otsene FCM topic juurdepääs             │
-│  RIA Firebase project'is meie äpp kui co-listener   │
-└──────────────────────┬──────────────────────────────┘
-                       │
-                       │  FCM push otse meie äppi
-                       │  ilma backend'ita vahepeal
-                       ▼
-              [Android & iOS app'id]
-```
-
-Variant B on tehniliselt kõige elegantsem — eemaldame backend'i polling-koormuse täielikult ja saame sama latentsuse mis Eesti äpp ise.
 
 ---
 
