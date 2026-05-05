@@ -1,14 +1,43 @@
 # Pöördumine: avalik EE-ALARM teavituste reaalajas-kanali loomine kolmanda osapoole hädaabi-äpi tarbeks
 
-**Adressaat:** Päästeamet (info@rescue.ee), Riigi Infosüsteemi Amet (info@ria.ee), Siseministeeriumi infotehnoloogia- ja arenduskeskus (smit@smit.ee)
+**Saatja:** Martti Randma, randma.martti@gmail.com, +372 5539649
+**Kuupäev:** 5. mai 2026
+**Õiguslik alus:** Avaliku teabe seadus § 6 lg 1 ja § 14 lg 1; Hädaolukorra seadus § 17 lg 1
+**Projekti repo:** [github.com/marttirandma/droonialarm](https://github.com/marttirandma/droonialarm)
 
-**Saatja:** Martti Randma, randma.martti@gmail.com
-**Kuupäev:** 4. mai 2026
-**Õiguslik alus:** Avaliku teabe seadus § 6 lg 1 ja § 14 lg 1
+## Adressaadid
+
+### Põhiadressaadid (operatiivne vastutus)
+
+| Asutus | Kontakt |
+|---|---|
+| Päästeamet (peadirektor Margo Klaos) | rescue@rescue.ee |
+| Riigi Infosüsteemi Amet RIA (peadirektor Joonas Heiter) | ria@ria.ee |
+| Siseministeeriumi infotehnoloogia- ja arenduskeskus SMIT (peadirektor Kirke Saar) | smit@smit.ee |
+| Häirekeskus (1247) | hairekeskus@112.ee |
+
+### Ministrid (poliitiline vastutus)
+
+| Roll | Minister | Kontakt |
+|---|---|---|
+| Siseminister (Päästeamet, SMIT, Häirekeskus) | Igor Taro | info@siseministeerium.ee |
+| Justiits- ja digiminister (vastutab RIA eest) | Liisa-Ly Pakosta | info@justdigi.ee |
+| Kaitseminister (drooni-intsidendid) | Hanno Pevkur | info@kaitseministeerium.ee |
+| Majandus- ja taristuminister (cell broadcast, sideregulatsioon) | Erkki Keldo / Kuldar Leis | info@mkm.ee |
+
+### Järelevalve- ja konsultatsiooniorganid (info teadmiseks)
+
+| Asutus | Kontakt |
+|---|---|
+| Õiguskantsler Ülle Madise | info@oiguskantsler.ee |
+| Andmekaitse Inspektsioon | info@aki.ee |
+| Riigikantselei valitsuse kommunikatsioonibüroo | strateegiline-kommunikatsioon@riigikantselei.ee |
+| Riigikogu Riigikaitsekomisjon | riigikaitsekomisjon@riigikogu.ee |
+| Riigikogu Põhiseaduskomisjon | pohiseaduskomisjon@riigikogu.ee |
 
 ---
 
-## Lugupeetud Päästeameti, RIA ja SMIT esindajad
+## Lugupeetud adressaadid
 
 Kirjutan teile ühe konkreetse avaliku ohutuse probleemi pärast, mille olen viimaste nädalate jooksul mitmest sõltumatust allikast kuulnud — sealhulgas oma perekonnast — ja mille tehnilist lahendamist tahan ette pakkuda.
 

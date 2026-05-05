@@ -1,0 +1,9 @@
+title: Droonialarm
+description: Mitteametlik EE-ALARM re-broadcast app — möirgab läbi DND ja vaikse režiimi.
+theme: jekyll-theme-cayman
+url: https://marttirandma.github.io
+baseurl: /droonialarm
+markdown: kramdown
+permalink: /:title/
+exclude:
+  - letter-to-paasteamet.html
