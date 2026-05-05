@@ -57,12 +57,18 @@ See on **õige disain** — hädaolukorra teavitus jõuab igale seadmele, mis ä
 
 ### Tegelik probleem mida me lahendame
 
-Eesti äpi kanal töötab autentimisvabalt — see on hea. Aga **silent mode ja Do Not Disturb probleem säilib mõlema ametliku kanali (SMS ja Eesti äpp) puhul:**
+Eesti äpi kanal töötab autentimisvabalt — see on hea. Aga **silent mode ja Do Not Disturb probleem säilib mõlema ametliku kanali (SMS ja Eesti äpp) puhul** — vähemalt selle kohta, mille me oleme näinud:
 
-- **Eesti äpi notification channel** ([strings.xml: `fcm_fallback_notification_channel_label = "Miscellaneous"`](https://github.com/marttirandma/droonialarm/blob/main/docs/reverse-engineering.md)) kasutab Android'i vaikimisi `USAGE_NOTIFICATION_EVENT` audio attributes'i — see ei läbi DND-d ega vaikset režiimi. Manifestis puuduvad `USE_FULL_SCREEN_INTENT`, `ACCESS_NOTIFICATION_POLICY` jt DND-bypass'iks vajalikud load.
+**Mida me kontrollisime:** Eesti äpi versioon **1.22.0 (build 384)**, mis tõmbasime Play Store'i mirror'i kaudu mai alguses 2026. Lisaks vaatasime [koodivaramu](https://koodivaramu.eesti.ee/eesti.app/app-frontend-public)'s avaldatud avalikku Flutter source koodi (mille viimane commit on **1. oktoober 2025** — 7 kuud tagasi). Tähelepanu väärib, et Play Store'is on praegu välja antud uuemad versioonid **1.23.0** ja **1.24.0**, mille avalikku lähtekoodi koodivaramus pole; nende uuemate versioonide notification-arhitektuuri me ei ole analüüsinud.
+
+**1.22.0 leiud:**
+
+- **Eesti äpi notification channel** kasutab Android'is vaikimisi `fcm_fallback_notification_channel = "Miscellaneous"` (audio attribute `USAGE_NOTIFICATION_EVENT`) — see ei läbi DND-d ega vaikset režiimi. Manifestis puuduvad `USE_FULL_SCREEN_INTENT`, `ACCESS_NOTIFICATION_POLICY` jt DND-bypass'iks vajalikud load. `flutter_local_notifications` plugin'i pole `pubspec.yaml`-is.
 - **iOS Eesti äpi `Runner.entitlements`** ei sisalda `com.apple.developer.usernotifications.critical-alerts` entitlement'it. Seega isegi külaline-kasutaja saab FCM push'i, aga **kui telefon on hääletu või Focus mode'is, ei kuule ta seda**.
 
 See on **täpselt sama probleem** mis SMS'iga: teavitus jõuab seadmesse, aga kasutaja seda ei kuule.
+
+**Kui versioonis 1.23.0 või 1.24.0 olete need parandused juba teinud — palume sellest teada anda.** Sel juhul oleks meie projekt Android'i osas üleliigne ning saaksime keskenduda ainult iOS-le. Aga kuna avalik lähtekood on 7 kuud uuendamata ja avalikud teadaanded sellisest ümbertegemisest puuduvad, eeldame seni vana arhitektuuri jätkumist.
 
 Lisaks: minu enda perekond (tütar Eestis, ema Eestis) ja kolm sõltumatut tunnistajat 3.05 Võrumaa alarmi kohta — nemad **kõik on potentsiaalselt Eesti äpi külalise-kasutajad**, aga ükski neist ei kuule alert'i, kui telefon on öösel hääletu. Sealtsamast SMS'st samade põhjustega: telefon ei möirga.
 

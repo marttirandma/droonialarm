@@ -69,14 +69,20 @@ Pöördumine: avalik EE-ALARM teavituste reaalajas-kanali loomine kolmanda osapo
 
 <h2 style="color: #c41e3a; font-size: 18px; margin-top: 28px;">Tegelik probleem mida me lahendame</h2>
 
-<p>Eesti äpi kanal töötab autentimisvabalt — see on hea. Aga <strong>silent mode ja Do Not Disturb probleem säilib mõlema ametliku kanali (SMS ja Eesti äpp) puhul:</strong></p>
+<p>Eesti äpi kanal töötab autentimisvabalt — see on hea. Aga <strong>silent mode ja Do Not Disturb probleem säilib mõlema ametliku kanali (SMS ja Eesti äpp) puhul</strong> — vähemalt selle kohta, mille me oleme näinud:</p>
+
+<p><strong>Mida me kontrollisime:</strong> Eesti äpi versioon <strong>1.22.0 (build 384)</strong>, mis tõmbasime Play Store'i mirror'i kaudu mai alguses 2026. Lisaks vaatasime <a href="https://koodivaramu.eesti.ee/eesti.app/app-frontend-public" style="color: #c41e3a;">koodivaramus</a> avaldatud avalikku Flutter source koodi (mille viimane commit on <strong>1. oktoober 2025</strong> — 7 kuud tagasi). Tähelepanu väärib, et Play Store'is on praegu välja antud uuemad versioonid <strong>1.23.0</strong> ja <strong>1.24.0</strong>, mille avalikku lähtekoodi koodivaramus pole; nende uuemate versioonide notification-arhitektuuri me ei ole analüüsinud.</p>
+
+<p><strong>1.22.0 leiud:</strong></p>
 
 <ul>
-<li><strong>Eesti äpi notification channel</strong> (<code>fcm_fallback_notification_channel_label = "Miscellaneous"</code>) kasutab Android'i vaikimisi <code>USAGE_NOTIFICATION_EVENT</code> audio attributes'i — see ei läbi DND-d ega vaikset režiimi. Manifestis puuduvad <code>USE_FULL_SCREEN_INTENT</code>, <code>ACCESS_NOTIFICATION_POLICY</code> jt DND-bypass'iks vajalikud load.</li>
+<li><strong>Eesti äpi notification channel</strong> kasutab Android'is vaikimisi <code>fcm_fallback_notification_channel = "Miscellaneous"</code> (audio attribute <code>USAGE_NOTIFICATION_EVENT</code>) — see ei läbi DND-d ega vaikset režiimi. Manifestis puuduvad <code>USE_FULL_SCREEN_INTENT</code>, <code>ACCESS_NOTIFICATION_POLICY</code> jt DND-bypass'iks vajalikud load. <code>flutter_local_notifications</code> plugin'i pole <code>pubspec.yaml</code>-is.</li>
 <li><strong>iOS Eesti äpi <code>Runner.entitlements</code></strong> ei sisalda <code>com.apple.developer.usernotifications.critical-alerts</code> entitlement'it. Seega isegi külaline-kasutaja saab FCM push'i, aga <strong>kui telefon on hääletu või Focus mode'is, ei kuule ta seda</strong>.</li>
 </ul>
 
 <p style="background: #fff7e6; padding: 12px; border-left: 4px solid #d97706; border-radius: 4px;">See on <strong>täpselt sama probleem</strong> mis SMS'iga: teavitus jõuab seadmesse, aga kasutaja seda ei kuule.</p>
+
+<p style="background: #f0f7ff; padding: 12px; border-left: 4px solid #2680c2; border-radius: 4px;"><strong>Kui versioonis 1.23.0 või 1.24.0 olete need parandused juba teinud — palume sellest teada anda.</strong> Sel juhul oleks meie projekt Android'i osas üleliigne ning saaksime keskenduda ainult iOS-le. Aga kuna avalik lähtekood on 7 kuud uuendamata ja avalikud teadaanded sellisest ümbertegemisest puuduvad, eeldame seni vana arhitektuuri jätkumist.</p>
 
 <p>Lisaks: minu enda perekond (tütar Eestis, ema Eestis) ja kolm sõltumatut tunnistajat 3.05 Võrumaa alarmi kohta — nemad <strong>kõik on potentsiaalselt Eesti äpi külalise-kasutajad</strong>, aga ükski neist ei kuule alert'i, kui telefon on öösel hääletu. Sealtsamast SMS'st samade põhjustega: telefon ei möirga.</p>
 
