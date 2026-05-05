@@ -47,7 +47,7 @@ EE-ALARM süsteem saadab praegu droonihäireid ja teisi hädaolukorra teavitusi 
 
 Olen ise praegu Balil, **mu tütar elab Eestis**. Pärast 25. märtsi Auvere droonirünnakut ja 31. märtsi üleriigilist häiret, ning eriti pärast 3. mai pühapäeva-varahommikust Võrumaa droonihäiret (03:23-05:30 EET), on vähemalt **kolm sõltumatut inimest minuga ühendust võtnud**, kes olid kohapeal aga **ei kuulnud SMS-i** — telefon oli vaiksel režiimil. Samuti on minu enda ema Eestis öelnud, et ei kuule neid teavitusi öösel.
 
-Päästeamet on ise [avalikult tunnistanud](https://news.err.ee/1609984362/estonia-to-introduce-cell-broadcast-emergency-alert-system-in-2027), et 3-5% õppuse Siil 2025 ajal ei saanud SMS'i üldse, ja et SMS-süsteem on "liiga aeglane ja ebausaldusväärne". Cell broadcast'i hange (€3,7M) on käimas, operatiivne 2027. Kuni selle ajani jääb avalik kasutaja **ebausaldusväärse kanali** kätte vahele.
+Päästeamet ise on [avalikult tunnistanud](https://www.err.ee/1609984068/eesti-plaanib-aasta-parast-kasutusele-votta-vorgupohise-valkteavituse), et uus võrgupõhine ohuteavitus (cell broadcast) on **"oluliselt tõhusam kui praegused äpiteavitused ja SMS-id"**, ning et osa kasutajatest on Päästeametiga ühendust võtnud just selle pärast, et **SMS ei jõudnud kohale** (eri põhjustel). Cell broadcast'i hange (3,67 mln €) on käimas, esimene võimekus on planeeritud 2026. aasta sügiseks, täismahus 2027-l. Kuni selle ajani jääb avalik kasutaja praeguse, ebatõhusama kanali kätte.
 
 ### Tunnustus Eesti äpi disaini-otsusele
 

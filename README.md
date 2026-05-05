@@ -20,9 +20,9 @@ Eesti EE-ALARM süsteem saadab praegu droonihäireid ja teisi hädaolukorra teav
 - **Ei läbi telefoni vaikset režiimi** — telefon ei pii üldse, kui silent peal
 - **Ei läbi Do Not Disturb seadeid** — magaja ei ärka
 - **Toimib ainult kohaliku raku piirkonnas** — välismaal eestlased jäävad teadmata
-- **3-5% õppuse Siil 2025 ajal ei saanud SMS'i üldse** ([Päästeamet, ERR](https://news.err.ee/1609984362/estonia-to-introduce-cell-broadcast-emergency-alert-system-in-2027))
+- **Päästeamet on tunnistanud, et osa kasutajaid SMS-i ei saa** ([ERR, 2.04.2026](https://www.err.ee/1609984068/eesti-plaanib-aasta-parast-kasutusele-votta-vorgupohise-valkteavituse))
 
-Päästeamet on ise tunnistanud, et süsteem on **"liiga aeglane ja ebausaldusväärne"** ja [hangib praegu cell broadcast'i süsteemi](https://news.err.ee/1609984362/estonia-to-introduce-cell-broadcast-emergency-alert-system-in-2027) (€3.7M, operatiivne 2027).
+Päästeamet on tunnistanud, et uus võrgupõhine cell broadcast on **"oluliselt tõhusam kui praegused äpiteavitused ja SMS-id"** ja [hangib praegu cell broadcast'i süsteemi](https://www.err.ee/1609984068/eesti-plaanib-aasta-parast-kasutusele-votta-vorgupohise-valkteavituse) (€3,67M, esimene võimekus 2026. sügis, täismahus 2027).
 
 **Vahepealse aja (2026-2027) jooksul** on Eesti elanikud — eriti unes, vaikse režiimi peal, ja välismaal viibivad eestlased — olukorras, kus nad ei saa hädaolukorra teateid kätte ka siis, kui need on saadetud.
 
@@ -188,7 +188,7 @@ Kui olete üks ülaltoodud asutustest:
 
 **Droonialarm** is an unofficial, open-source iOS+Android app that re-broadcasts Estonia's EE-ALARM emergency notifications in a way that bypasses Do Not Disturb and silent mode on the recipient's phone.
 
-The Estonian state warning system currently sends drone-incursion alerts via location-based SMS. SMS does not bypass silent mode, does not ring through Do Not Disturb, doesn't reach Estonians abroad, and 3-5% of recipients didn't get the SMS at all during the May 2025 Siil exercise (per Päästeamet's own statistics). The official cell-broadcast replacement is procured but not operational until 2027.
+The Estonian state warning system currently sends drone-incursion alerts via location-based SMS. SMS does not bypass silent mode, does not ring through Do Not Disturb, and does not reach Estonians abroad. Päästeamet (the Rescue Board) has [publicly acknowledged](https://www.err.ee/1609984068/eesti-plaanib-aasta-parast-kasutusele-votta-vorgupohise-valkteavituse) that the new network-based cell broadcast is "significantly more effective than current app notifications and SMS messages" and that some users have contacted the Rescue Board because the SMS did not reach them. The official cell-broadcast replacement is procured but not operational until 2027.
 
 This project bridges that gap by polling Estonia's public SITREP API (`api.app.eesti.ee/api/sitrep/v1/full-events`, no auth) every minute and pushing emergency-priority notifications to subscribed devices using:
 - **Android:** `USAGE_ALARM` notification channel with `enableBypassDnd(true)`
