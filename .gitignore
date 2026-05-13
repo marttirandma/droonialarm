@@ -33,12 +33,8 @@ app/android/app/google-services.json
 app/ios/Runner/GoogleService-Info.plist
 
 # Reverse engineering artifacts (large, regeneratable)
-research/eestiapp/*.xapk
-research/eestiapp/*.apk
-research/eestiapp/decompiled/
-research/eestiapp/lib/
-research/olevalmis/*.apk
-research/olevalmis/decompiled/
+research/
+# (covers ALL subdirs — eestiapp/, eestiapp_1.24/, olevalmis/, future versions, decompiled trees, APKs, IPAs, libapp.so, etc.)
 
 # OS
 .DS_Store
