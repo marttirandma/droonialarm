@@ -59,3 +59,9 @@ firebase-service-account.json
 *.p8
 GoogleService-Info.plist
 google-services.json
+
+# Private correspondence drafts — never publish
+docs/reply-*
+docs/private/
+*.private.md
+*.private.html
